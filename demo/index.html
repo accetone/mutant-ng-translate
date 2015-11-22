@@ -5,20 +5,41 @@
 </head>
 <body ng-app="MyApp" ng-controller="MyCtrl">
 
-<h3>Simple usage of mutant-ng-translate</h3>
+    <h3>Simple usage of mutant-ng-translate</h3>
 
+    {{ values.hello }}<br/>
+    {{ values.test }}<br/>
+    <br />
+    <input type="button" ng-click="loadSecondPortion()" value="Load second portion" />
 
-<script src="../bower_components/angular/angular.js"></script>
-<script src="../src/translate.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../src/translate.js"></script>
 
-<script>
-    (function() {
-        angular.module('MyApp', ['mutant-ng-translate'])
-            .controller('MyCtrl', [
-                '$scope', function($scope) { }
-            ]);
-    })();
-</script>
+    <script>
+        (function() {
+            angular.module('MyApp', ['mutant-ng-translate'])
+                .controller('MyCtrl', [
+                    '$scope', '$translateStorage', function ($scope, $translateStorage) {
+                        var values1 = {
+                            'hello': 'Hello World'
+                        };
+
+                        var values2 = {
+                            'hello': 'Hello Async World',
+                            'test': 'Test'
+                        };
+
+                        $translateStorage.setValues('en', values1);
+
+                        $scope.values = $translateStorage.getValues('en');
+
+                        $scope.loadSecondPortion = function() {
+                            $translateStorage.setValues('en', values2);
+                        };
+                    }
+                ]);
+        })();
+    </script>
 
 </body>
 </html>
