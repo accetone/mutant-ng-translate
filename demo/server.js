@@ -2,25 +2,31 @@
     fs = require('fs');
 
 http
-    .createServer(function (request, response) {
-        response.writeHead(200, { 'Content-Type': 'text/html' });
-
-        var filename = request.url;
-
-        if (filename === '/favicon.ico') {
+    .createServer(function(request, response) {
+        if (request.url === '/favicon.ico') {
+            response.writeHead(404, { 'Content-Type': 'text/html' });
             response.end();
             return;
         }
+
+        var filename = request.url;
         if (filename === '/') filename = 'index.html';
-        else filename = '..' + filename;
 
-        fs.readFile(filename, function (error, filecontent) {
-                if (error) throw error;
+        try {
+            var filecontent = fs.readFileSync(filename);
 
-                response.write(filecontent);
-                response.end();
-            }
-        );
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.write(filecontent);
+            response.end();
+        } catch (e) {}
+
+        try {
+            var filecontent = fs.readFileSync('..' + filename);
+
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.write(filecontent);
+            response.end();
+        } catch (e) {}
     })
     .listen(2000, '127.0.0.1');
 
