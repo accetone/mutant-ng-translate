@@ -1,0 +1,13 @@
+{
+  "author": "Nikita Tsyhanenko",
+  "name": "mutant-ng-translate",
+  "description": "i18n for angular",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/accetone/mutant-ng-translate"
+  },
+  "dependencies": {
+    "angular": "~1.4.8"
+  }
+}
