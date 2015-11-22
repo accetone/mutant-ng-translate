@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+</head>
+<body ng-app="MyApp" ng-controller="MyCtrl">
+
+<h3>Simple usage of mutant-ng-translate</h3>
+
+
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../src/translate.js"></script>
+
+<script>
+    (function() {
+        angular.module('MyApp', ['mutant-ng-translate'])
+            .controller('MyCtrl', [
+                '$scope', function($scope) { }
+            ]);
+    })();
+</script>
+
+</body>
+</html>
