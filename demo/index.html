@@ -7,10 +7,8 @@
 
     <h3>Simple usage of mutant-ng-translate</h3>
 
-    {{ values.hello }}<br/>
-    {{ values.test }}<br/>
-    <br />
-    <input type="button" ng-click="loadSecondPortion()" value="Load second portion" />
+    {{ values["HELLO-WORLD"] }}<br/>
+    {{ values["HELLO-FOO"] }}<br/>
 
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../src/translate.js"></script>
@@ -19,23 +17,29 @@
         (function() {
             angular.module('MyApp', ['mutant-ng-translate'])
                 .controller('MyCtrl', [
-                    '$scope', '$translateStorage', function ($scope, $translateStorage) {
-                        var values1 = {
-                            'hello': 'Hello World'
+                    '$scope', '$translateStorage', '$translateLoader', function ($scope, $translateStorage, $translateLoader) {
+                        var langKey = 'en';
+                        var urlTemplate = '/locale-{part}-{lang}.json';
+
+                        var directTransformation = function (values) {
+                            console.log(values);
+                            return values;
                         };
 
-                        var values2 = {
-                            'hello': 'Hello Async World',
-                            'test': 'Test'
-                        };
+                        $scope.values = $translateStorage.setValues(langKey, {});
+                        $scope.values = $translateStorage.getValues(langKey);
 
-                        $translateStorage.setValues('en', values1);
+                        $translateLoader
+                            .loadPart({ part: 'first', lang: langKey, urlTemplate: urlTemplate, dataTransformation: directTransformation })
+                            .then(function(values) {
+                                $translateStorage.setValues(langKey, values);
+                            });
 
-                        $scope.values = $translateStorage.getValues('en');
-
-                        $scope.loadSecondPortion = function() {
-                            $translateStorage.setValues('en', values2);
-                        };
+                        $translateLoader
+                            .loadPart({ part: 'second', lang: langKey, urlTemplate: urlTemplate, dataTransformation: directTransformation })
+                            .then(function (values) {
+                                $translateStorage.setValues(langKey, values);
+                            });
                     }
                 ]);
         })();
