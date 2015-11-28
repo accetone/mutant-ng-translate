@@ -4,7 +4,8 @@
     angular
         .module('mutant-ng-translate', [])
         .factory('$translateStorage', [translateStorage])
-        .factory('$translateLoader', ['$http', '$q', translateLoader]);
+        .factory('$translateLoader', ['$http', '$q', translateLoader])
+        .factory('$translateCache', ['$window', translateCache]);
 
     function translateStorage() {
         var self = this;
@@ -60,5 +61,73 @@
         };
 
         return self;
+    };
+
+    function translateCache($window) {
+        var self = this;
+
+        self.local = {
+            prefix: 'mutant-ng-translate-',
+            isSupported: isSupportLocalStorage(),
+            storage: $window.localStorage,
+            get: getFromLocalStorage,
+            put: putToLocalStorage,
+            exists: existsInLocalStorage
+        };
+
+        self.cache = {
+            getValues: getValuesFromCache,
+            setValues: setValuesToCache
+        };
+
+        return self.cache;
+
+        // LOCAL STORAGE
+        function isSupportLocalStorage() {
+            try {
+                $window.localStorage.setItem('test', 'test');
+                $window.localStorage.removeItem('test');
+
+                return true;
+            } catch (exception) {
+                return false;
+            }
+        }
+
+        function getFromLocalStorage(key) {
+            return JSON.parse(self.local.storage[key]);
+        };
+
+        function putToLocalStorage(key, obj) {
+            self.local.storage[key] = JSON.stringify(obj);
+        };
+
+        function existsInLocalStorage(key) {
+            return !!self.local.storage[key];
+        };
+
+        // CACHE
+        function getValuesFromCache(lang) {
+            if (!self.local.isSupported) return {};
+            
+            var lsKey = self.local.prefix + lang;
+
+            if (!self.local.exists(lsKey)) {
+                self.local.put(lsKey, {});
+            }
+
+            return self.local.get(lsKey);
+        }
+
+        function setValuesToCache(lang, values) {
+            if (!self.local.isSupported) return;
+
+            var lsKey = self.local.prefix + lang;
+            var cacheValues = self.cache.getValues(lang);
+
+            angular.extend(cacheValues, values);
+
+            self.local.put(lsKey, cacheValues);
+        }
     };
 })();
