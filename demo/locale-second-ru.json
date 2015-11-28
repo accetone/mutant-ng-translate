@@ -1,3 +1,4 @@
 ﻿{
-    "HELLO-FOO": "Привет foo!"
+    "HELLO-FOO": "Привет foo!",
+    "HELLO-ALICE": "Привет Алиса от второго!"
 }

@@ -9,6 +9,7 @@
 
     {{ values["HELLO-WORLD"] }}<br/>
     {{ values["HELLO-FOO"] }}<br/>
+    {{ values["HELLO-ALICE"] }}<br />
 
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../src/translate.js"></script>
@@ -22,7 +23,6 @@
                         var urlTemplate = '/locale-{part}-{lang}.json';
 
                         var directTransformation = function (values) {
-                            console.log(values);
                             return values;
                         };
 
