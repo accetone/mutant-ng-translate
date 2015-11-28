@@ -18,7 +18,7 @@
         (function() {
             angular.module('MyApp', ['mutant-ng-translate'])
                 .controller('MyCtrl', [
-                    '$scope', '$translateStorage', '$translateLoader', function ($scope, $translateStorage, $translateLoader) {
+                    '$scope', '$translateStorage', '$translateLoader', '$translateCache', function ($scope, $translateStorage, $translateLoader, $translateCache) {
                         var langKey = 'en';
                         var urlTemplate = '/locale-{part}-{lang}.json';
 
@@ -26,19 +26,23 @@
                             return values;
                         };
 
-                        $scope.values = $translateStorage.setValues(langKey, {});
+                        var cacheValues = $translateCache.getValues(langKey);
+                        $translateStorage.setValues(langKey, cacheValues);
+
                         $scope.values = $translateStorage.getValues(langKey);
 
                         $translateLoader
                             .loadPart({ part: 'first', lang: langKey, urlTemplate: urlTemplate, dataTransformation: directTransformation })
                             .then(function(values) {
                                 $translateStorage.setValues(langKey, values);
+                                $translateCache.setValues(langKey, values);
                             });
 
                         $translateLoader
                             .loadPart({ part: 'second', lang: langKey, urlTemplate: urlTemplate, dataTransformation: directTransformation })
                             .then(function (values) {
                                 $translateStorage.setValues(langKey, values);
+                                $translateCache.setValues(langKey, values);
                             });
                     }
                 ]);

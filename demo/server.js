@@ -45,7 +45,8 @@ http
         var file = getFile(request.url);
 
         if (file) {
-            if (request.url.indexOf('second') !== -1) sendFileWithDelay(response, file, 5000);
+            if (request.url.indexOf('first') !== -1) sendFileWithDelay(response, file, 5000);
+            else if (request.url.indexOf('second') !== -1) sendFileWithDelay(response, file, 7000);
             else sendFile(response, file);
         }
         else send404(response);
