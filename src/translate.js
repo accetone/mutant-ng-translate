@@ -30,11 +30,7 @@
                 self.langs[lang] = {};
             }
 
-            for (var key in values) {
-                if (!values.hasOwnProperty(key)) continue;
-
-                self.langs[lang][key] = values[key];
-            }
+            angular.extend(self.langs[lang], values);
         };
 
         return self;
