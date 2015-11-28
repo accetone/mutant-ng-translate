@@ -1,8 +1,10 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mutant-ng-translate', [])
-        .factory('$translateStorage', [translateStorage]);
+    angular
+        .module('mutant-ng-translate', [])
+        .factory('$translateStorage', [translateStorage])
+        .factory('$translateLoader', ['$http', '$q', translateLoader]);
 
     function translateStorage() {
         var self = this;
@@ -33,6 +35,32 @@
 
                 self.langs[lang][key] = values[key];
             }
+        };
+
+        return self;
+    };
+
+    function translateLoader($http, $q) {
+        var self = this;
+        
+        // LOAD
+        self.loadPart = function(options) {
+            var url = options
+                .urlTemplate
+                .replace(/{part}/g, options.part)
+                .replace(/{lang}/g, options.lang);
+
+            return $q(function(resolve, reject) {
+                $http
+                    .get(url)
+                    .then(function (response) {
+                        var values = options.dataTransformation(response.data);
+                        resolve(values);
+                    })
+                    .catch(function(error) {
+                        reject(error);
+                    });
+            });
         };
 
         return self;
