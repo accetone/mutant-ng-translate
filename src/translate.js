@@ -79,7 +79,9 @@
 
         self.cache = {
             getValues: getValuesFromCache,
-            setValues: setValuesToCache
+            setValues: setValuesToCache,
+            getLang: getLangFromCache,
+            setLang: setLangToCache
         };
 
         return self.cache;
@@ -131,5 +133,18 @@
 
             self.local.put(lsKey, cacheValues);
         }
+
+        function getLangFromCache() {
+            var lsKey = self.local.prefix + 'lang';
+
+            return self.local.get(lsKey);
+        }
+
+        function setLangToCache(lang) {
+            var lsKey = self.local.prefix + 'lang';
+
+            self.local.put(lsKey, lang);
+        }
+    };
     };
 })();
