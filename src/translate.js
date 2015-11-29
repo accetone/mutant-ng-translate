@@ -95,6 +95,7 @@
         }
 
         function getFromLocalStorage(key) {
+            if (!self.local.storage[key]) return undefined;
             return JSON.parse(self.local.storage[key]);
         };
 
