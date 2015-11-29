@@ -7,9 +7,11 @@
 
     <h3>Simple usage of mutant-ng-translate</h3>
 
-    {{ values["HELLO-WORLD"] }}<br/>
-    {{ values["HELLO-FOO"] }}<br/>
-    {{ values["HELLO-ALICE"] }}<br />
+    {{ translate.values["HELLO-WORLD"] }}<br/>
+    {{ translate.values["HELLO-FOO"] }}<br/>
+    {{ translate.values["HELLO-ALICE"] }}<br />
+
+    <input type="button" ng-click="switchLang()" value="switch lang"/>
 
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../src/translate.js"></script>
@@ -18,32 +20,21 @@
         (function() {
             angular.module('MyApp', ['mutant-ng-translate'])
                 .controller('MyCtrl', [
-                    '$scope', '$translateStorage', '$translateLoader', '$translateCache', function ($scope, $translateStorage, $translateLoader, $translateCache) {
-                        var langKey = 'en';
-                        var urlTemplate = '/locale-{part}-{lang}.json';
+                    '$scope', '$translate', '$translateCache', function ($scope, $translate, $translateCache) {
+                        $translate.init({
+                            defaultLang: 'en',
+                            urlTemplate: '/locale-{part}-{lang}.json'
+                        });
 
-                        var directTransformation = function (values) {
-                            return values;
+                        $translate.parts.add('first');
+                        $translate.parts.add('second');
+
+                        $scope.translate = $translate;
+
+                        $scope.switchLang = function () {
+                            if ($translate.options.lang === 'en') $translate.use('ru');
+                            else $translate.use('en');
                         };
-
-                        var cacheValues = $translateCache.getValues(langKey);
-                        $translateStorage.setValues(langKey, cacheValues);
-
-                        $scope.values = $translateStorage.getValues(langKey);
-
-                        $translateLoader
-                            .loadPart({ part: 'first', lang: langKey, urlTemplate: urlTemplate, dataTransformation: directTransformation })
-                            .then(function(values) {
-                                $translateStorage.setValues(langKey, values);
-                                $translateCache.setValues(langKey, values);
-                            });
-
-                        $translateLoader
-                            .loadPart({ part: 'second', lang: langKey, urlTemplate: urlTemplate, dataTransformation: directTransformation })
-                            .then(function (values) {
-                                $translateStorage.setValues(langKey, values);
-                                $translateCache.setValues(langKey, values);
-                            });
                     }
                 ]);
         })();
