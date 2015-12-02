@@ -1,5 +1,9 @@
 var gulp = require('gulp');
+var concat = require('gulp-concat');
 
 gulp.task('default', function () {
-    // place code for your default task here
+    return gulp
+        .src('./src/**/*.js')
+        .pipe(concat('mutant-ng-translate.js'))
+        .pipe(gulp.dest('./build/'));
 });
