@@ -1,0 +1,8 @@
+{
+    "author": "A confused individual <iam@confused.com>",
+    "name": "mutant-ng-translate",
+    "description": "i18n for angular",
+    "devDependencies": {
+        "gulp": "~3.9.0"
+    }
+}
