@@ -11,6 +11,7 @@
         self.langs = {};
 
         self.getValues = getValues;
+        self.getValue = getValue;
         self.setValues = setValues;
 
         return self;
@@ -21,6 +22,14 @@
             }
 
             return self.langs[lang];
+        }
+
+        function getValue(lang, key) {
+            if (!self.langs.hasOwnProperty(lang) || !self.langs[lang].hasOwnProperty(key)) {
+                return key;
+            }
+
+            return self.langs[lang][key];
         }
 
         function setValues(lang, values) {
