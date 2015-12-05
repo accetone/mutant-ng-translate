@@ -26,6 +26,7 @@
         };
 
         self.values = {};
+        self.translation = translation;
 
         return self;
 
@@ -117,6 +118,10 @@
                     $translateStorage.setValues(partOptions.lang, values);
                     $translateCache.setValues(partOptions.lang, values);
                 });
+        }
+
+        function translation(key) {
+            return $translateStorage.getValue(self.options.lang, key);
         }
     };
 })();
