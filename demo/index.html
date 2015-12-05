@@ -7,9 +7,9 @@
 
     <h3>Simple usage of mutant-ng-translate</h3>
 
-    {{ translate.values["HELLO-WORLD"] }}<br/>
-    {{ translate.values["HELLO-FOO"] }}<br/>
-    {{ translate.values["HELLO-ALICE"] }}<br />
+    {{ "HELLO-WORLD" | translate }}<br/>
+    {{ "HELLO-FOO" | translate }}<br/>
+    <div ng-translate="HELLO-ALICE"></div>
 
     <input type="button" ng-click="switchLang()" value="switch lang"/>
 
@@ -20,7 +20,7 @@
         (function() {
             angular.module('MyApp', ['mutant-ng-translate'])
                 .controller('MyCtrl', [
-                    '$scope', '$translate', '$translateCache', function ($scope, $translate, $translateCache) {
+                    '$scope', '$translate', '$translateCache', function ($scope, $translate) {
                         $translate.init({
                             defaultLang: 'en',
                             urlTemplate: '/locale-{part}-{lang}.json'
@@ -28,8 +28,6 @@
 
                         $translate.parts.add('first');
                         $translate.parts.add('second');
-
-                        $scope.translate = $translate;
 
                         $scope.switchLang = function () {
                             if ($translate.options.lang === 'en') $translate.use('ru');
