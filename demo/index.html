@@ -20,7 +20,7 @@
         (function() {
             angular.module('MyApp', ['mutant-ng-translate'])
                 .controller('MyCtrl', [
-                    '$scope', '$translate', '$translateCache', function ($scope, $translate) {
+                    '$scope', '$translate', function ($scope, $translate) {
                         $translate.init({
                             defaultLang: 'en',
                             urlTemplate: '/locale-{part}-{lang}.json'
