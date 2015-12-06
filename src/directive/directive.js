@@ -3,15 +3,15 @@
 
     angular
         .module('mutant-ng-translate')
-        .directive('ngTranslate', ['$translate', '$rootScope', translateDirective]);
+        .directive('ngTranslate', ['$translate', '$translateEvents', translateDirective]);
 
-    function translateDirective($translate, $rootScope) {
+    function translateDirective($translate, $translateEvents) {
         var link = function (scope, element, attrs) {
             element = element[0];
 
             var translitionKey = attrs['ngTranslate'];
 
-            $rootScope.$on('translationsUpdated', function () {
+            $translateEvents.translationsUpdated.subscribe(function() {
                 element.innerHTML = $translate.translation(translitionKey);
             });
 

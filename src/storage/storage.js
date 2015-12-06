@@ -3,9 +3,9 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateStorage', ['$rootScope', translateStorage]);
+        .factory('$translateStorage', ['$translateEvents', translateStorage]);
 
-    function translateStorage($rootScope) {
+    function translateStorage($translateEvents) {
         var self = this;
 
         self.langs = {};
@@ -39,7 +39,7 @@
 
             angular.extend(self.langs[lang], values);
 
-            $rootScope.$emit('translationsUpdated');
+            $translateEvents.translationsUpdated.publish();
         }
     };
 })();
