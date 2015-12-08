@@ -15,7 +15,7 @@
         function loadPart(options) {
             var url = options
                 .urlTemplate
-                .replace(/{part}/g, options.part)
+                .replace(/{part}/g, options.part.name)
                 .replace(/{lang}/g, options.lang);
 
             return $q(function (resolve, reject) {

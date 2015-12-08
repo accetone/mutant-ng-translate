@@ -83,6 +83,8 @@
             var lang = self.options.lang;
 
             for (var i = 0; i < self.parts.list.length; i++) {
+                if (self.parts.list[i][lang]) continue;
+
                 var partOptions = {
                     part: self.parts.list[i],
                     lang: lang,
@@ -94,11 +96,11 @@
             }
         }
 
-        function addPart(part) {
-            if (!part) return;
+        function addPart(name) {
+            if (!name) return;
 
             var partOptions = {
-                part: part,
+                part: { name: name },
                 lang: self.options.lang,
                 urlTemplate: self.options.urlTemplate,
                 dataTransformation: self.options.dataTransformation
@@ -114,6 +116,10 @@
                 .loadPart(partOptions)
                 .then(function (values) {
                     // TODO: note for which langs part is loaded to avoid reload when switch langugage
+
+                    partOptions.part[partOptions.lang] = true;
+
+                    console.log(self.parts);
 
                     $translateStorage.setValues(partOptions.lang, values);
                     $translateCache.setValues(partOptions.lang, values);
