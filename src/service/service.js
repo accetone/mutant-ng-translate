@@ -3,9 +3,9 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translate', ['$translateUtils', '$translateStorage', '$translateLoader', '$translateCache', translate]);
+        .factory('$translate', ['$translateUtils', '$translateStorage', '$translateLoader', '$translateCache', '$translateEvents', translate]);
 
-    function translate($tranlslateUtils, $translateStorage, $translateLoader, $translateCache) {
+    function translate($tranlslateUtils, $translateStorage, $translateLoader, $translateCache, $translateEvents) {
         var self = this;
 
         self.options = {
@@ -69,6 +69,8 @@
         }
 
         function use(lang) {
+            if (self.options.lang === lang) return;
+
             self.options.lang = lang;
             $translateCache.setLang(lang);
             self.values = $translateStorage.getValues(lang);
@@ -77,6 +79,8 @@
             $translateStorage.setValues(lang, cacheValues);
 
             self.refresh();
+
+            $translateEvents.languageChanged.publish();
         }
 
         function refresh() {
