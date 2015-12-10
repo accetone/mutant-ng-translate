@@ -123,6 +123,10 @@
 
                     $translateStorage.setValues(partOptions.lang, values);
                     $translateCache.setValues(partOptions.lang, values);
+
+                    if ($translateLoader.loaded[partOptions.lang] === self.parts.list.length) {
+                        $translateEvents.allPartsLoaded.publish(partOptions.lang);
+                    }
                 });
         }
 
