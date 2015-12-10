@@ -115,11 +115,7 @@
             $translateLoader
                 .loadPart(partOptions)
                 .then(function (values) {
-                    // TODO: note for which langs part is loaded to avoid reload when switch langugage
-
                     partOptions.part[partOptions.lang] = true;
-
-                    console.log(self.parts);
 
                     $translateStorage.setValues(partOptions.lang, values);
                     $translateCache.setValues(partOptions.lang, values);
