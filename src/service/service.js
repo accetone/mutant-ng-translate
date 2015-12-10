@@ -14,7 +14,7 @@
             cacheSelectedLang: true
         };
 
-        self.init = init;
+        self.config = config;
         self.translations = translations;
         self.use = use;
         self.refresh = refresh;
@@ -30,8 +30,7 @@
 
         return self;
 
-        // defaultLang, cacheTranslations, cacheSelectedLang, preloadLanguages, dataTransformation, urlTemplate, validLanguages (if some language depricated and you want remove it from cache)
-        function init(options) {
+        function config(options) {
             angular.extend(self.options, options);
             $tranlslateUtils.validateOptions(self.options);
 
@@ -62,7 +61,6 @@
 
         function translations(lang, values) {
             if (!!values) {
-                // cache this values ???
                 $translateStorage.setValues(lang, values);
             }
 

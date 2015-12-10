@@ -21,7 +21,7 @@
             angular.module('MyApp', ['mutant-ng-translate'])
                 .controller('MyCtrl', [
                     '$scope', '$translate', function ($scope, $translate) {
-                        $translate.init({
+                        $translate.config({
                             defaultLang: 'en',
                             preloadLanguages: ['en', 'ru'],
                             urlTemplate: '/locale-{part}-{lang}.json'
