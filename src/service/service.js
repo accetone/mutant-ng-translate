@@ -55,6 +55,9 @@
 
             // get values
             self.values = $translateStorage.getValues(self.options.lang);
+
+            // register preload
+            $translateEvents.allPartsLoaded.subscribe(preload);
         }
 
         function translations(lang, values) {
@@ -132,6 +135,27 @@
 
         function translation(key) {
             return $translateStorage.getValue(self.options.lang, key);
+        }
+
+        function preload() {
+            if (!self.options.preloadLanguages) return;
+
+            for (var i = 0; i < self.options.preloadLanguages.length; i++) {
+                var lang = self.options.preloadLanguages[i];
+
+                for (var j = 0; j < self.parts.list.length; j++) {
+                    if (self.parts.list[j][lang]) continue;
+
+                    var partOptions = {
+                        part: self.parts.list[j],
+                        lang: lang,
+                        urlTemplate: self.options.urlTemplate,
+                        dataTransformation: self.options.dataTransformation
+                    };
+
+                    self.parts.load(partOptions);
+                }
+            }
         }
     };
 })();
