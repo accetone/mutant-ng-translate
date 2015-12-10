@@ -13,7 +13,7 @@
             cacheTranslations: true,
             cacheSelectedLang: true
         };
-
+        
         self.config = config;
         self.translations = translations;
         self.use = use;
@@ -22,7 +22,8 @@
         self.parts = {
             add: addPart,
             load: loadPart,
-            list: []
+            list: [],
+            loaded: {}
         };
 
         self.values = {};
@@ -56,7 +57,7 @@
             self.values = $translateStorage.getValues(self.options.lang);
 
             // register preload
-            $translateEvents.allPartsLoaded.subscribe(preload);
+            $translateEvents.allPartsLoaded.subscribe(preload, true);
         }
 
         function translations(lang, values) {
@@ -120,12 +121,15 @@
             $translateLoader
                 .loadPart(partOptions)
                 .then(function (values) {
+                    // TODO: move this two lines to event handlers
                     partOptions.part[partOptions.lang] = true;
+                    if (!self.parts.loaded[partOptions.lang]) self.parts.loaded[partOptions.lang] = 1;
+                    else self.parts.loaded[partOptions.lang]++;
 
                     $translateStorage.setValues(partOptions.lang, values);
                     $translateCache.setValues(partOptions.lang, values);
 
-                    if ($translateLoader.loaded[partOptions.lang] === self.parts.list.length) {
+                    if (self.parts.loaded[partOptions.lang] === self.parts.list.length) {
                         $translateEvents.allPartsLoaded.publish(partOptions.lang);
                     }
                 });
