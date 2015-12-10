@@ -3,9 +3,9 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateLoader', ['$http', '$q', translateLoader]);
+        .factory('$translateLoader', ['$http', '$q', '$translateEvents', translateLoader]);
 
-    function translateLoader($http, $q) {
+    function translateLoader($http, $q, $translateEvents) {
         var self = this;
 
         self.loadPart = loadPart;
@@ -24,6 +24,8 @@
                     .then(function (response) {
                         var values = options.dataTransformation(response.data);
                         resolve(values);
+
+                        $translateEvents.partLoaded.publish();
                     })
                     .catch(function (error) {
                         reject(error);
