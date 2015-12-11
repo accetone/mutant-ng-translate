@@ -80,7 +80,6 @@
         }
 
         function initSubscription() {
-            $translateEvents.partLoaded.
 
             $translateEvents.allPartsLoaded.subscribe(preload, true);
         }
