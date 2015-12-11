@@ -24,8 +24,6 @@
                     .then(function (response) {
                         var values = options.dataTransformation(response.data);
                         resolve(values);
-
-                        $translateEvents.partLoaded.publish();
                     })
                     .catch(function (error) {
                         reject(error);

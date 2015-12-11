@@ -38,7 +38,7 @@
 
         self.preload = {
             callback: preload,
-            loaded: {}
+            loadedCounter: 0
         };
         
         self.refresh = refresh;
@@ -80,6 +80,19 @@
         }
 
         function initSubscription() {
+            $translateEvents.partLoaded.subscribe(function (partOptions) {
+                if (partOptions.lang !== self.options.lang) return;
+
+                self.parts.loadedCounter++;
+                
+                if (self.parts.loadedCounter === self.parts.list.length) {
+                    $translateEvents.allPartsLoaded.publish(partOptions.lang);
+                }
+            });
+
+            $translateEvents.languageChanged.subscribe(function() {
+                self.parts.loadedCounter = 0;
+            });
 
             $translateEvents.allPartsLoaded.subscribe(preload, true);
         }
@@ -151,17 +164,12 @@
             $translateLoader
                 .loadPart(partOptions)
                 .then(function (values) {
-                    // TODO: move this two lines to event handlers
                     partOptions.part[partOptions.lang] = true;
-                    if (!self.parts.loaded[partOptions.lang]) self.parts.loaded[partOptions.lang] = 1;
-                    else self.parts.loaded[partOptions.lang]++;
-
+                    
+                    $translateStorage.setValues(partOptions.lang, values);
                     self.cacheTranslations(partOptions.lang, values);
-                    $translateCache.setValues(partOptions.lang, values);
-
-                    if (self.parts.loaded[partOptions.lang] === self.parts.list.length) {
-                        $translateEvents.allPartsLoaded.publish(partOptions.lang);
-                    }
+                    
+                    $translateEvents.partLoaded.publish(partOptions);
                 });
         }
 
@@ -183,10 +191,6 @@
                 self.parts.load(partOptions);
             }
         }
-
-        
-
-        
 
         
         function preload() {
