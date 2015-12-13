@@ -27,8 +27,7 @@
                             urlTemplate: '/locale-{part}-{lang}.json'
                         });
 
-                        $translate.parts.add('first');
-                        $translate.parts.add('second');
+                        $translate.parts.add('first', 'second');
 
                         $scope.switchLang = function () {
                             if ($translate.options.lang === 'en') $translate.use('ru');

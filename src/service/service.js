@@ -16,12 +16,18 @@
         
         self.config = config;
         self.validateOptions = validateOptions;
-        self.initLanguage = initLanguage;
-        self.initTranslations = initTranslations;
-        self.initSubscription = initSubscription;
+        self.initSubscriptions = initSubscriptions;
 
-        self.cacheLanguage = cacheLanguage;
-        self.cacheTranslations = cacheTranslations;
+        self.cache = {
+            to: {
+                language: cacheToLanguage,
+                translations: cacheToTranslations
+            },
+            from: {
+                language: cacheFromLanguage,
+                translations: cacheFromTranslations
+            }
+        };
 
         self.use = use;
         self.langKey = langKey;
@@ -30,18 +36,21 @@
         self.translation = translation;
 
         self.parts = {
-            add: addPart,
-            load: loadPart,
             list: [],
-            loaded: {}
-        };
 
-        self.preload = {
-            callback: preload,
+            add: addParts,
+            load: loadPart,
+            
+            refresh: refresh,
+
             loadedCounter: 0
         };
-        
-        self.refresh = refresh;
+
+        self.callbacks = {
+            preload: preloadCallback,
+            partLoaded: partLoadedCallback,
+            languageChanged: languageChangedCallback
+        };
 
         return self;
         
@@ -50,16 +59,24 @@
             angular.extend(self.options, options);
             self.validateOptions();
 
-            self.initLanguage();
-            self.initTranslations();
-            self.initSubscription();
+            self.cache.from.language();
+            self.cache.from.translations();
+
+            self.initSubscriptions();
         }
 
         function validateOptions() {
             $tranlslateUtils.validateOptions(self.options);
         }
 
-        function initLanguage() {
+        function initSubscriptions() {
+            $translateEvents.partLoaded.subscribe(self.callbacks.partLoaded);
+            $translateEvents.languageChanged.subscribe(self.callbacks.languageChanged);
+            $translateEvents.allPartsLoaded.subscribe(self.callbacks.preload, true);
+        }
+
+        /* CACHE */
+        function cacheFromLanguage() {
             if (self.options.cacheSelectedLang) {
                 self.options.lang = $translateCache.getLang();
 
@@ -72,39 +89,20 @@
             }
         }
 
-        function initTranslations() {
+        function cacheToLanguage(lang) {
+            if (!self.options.cacheSelectedLang) return;
+
+            $translateCache.setLang(lang);
+        }
+
+        function cacheFromTranslations() {
             if (!self.options.cacheTranslations) return;
 
             var cacheValues = $translateCache.getValues(self.options.lang);
             $translateStorage.setValues(self.options.lang, cacheValues);
         }
 
-        function initSubscription() {
-            $translateEvents.partLoaded.subscribe(function (partOptions) {
-                if (partOptions.lang !== self.options.lang) return;
-
-                self.parts.loadedCounter++;
-                
-                if (self.parts.loadedCounter === self.parts.list.length) {
-                    $translateEvents.allPartsLoaded.publish(partOptions.lang);
-                }
-            });
-
-            $translateEvents.languageChanged.subscribe(function() {
-                self.parts.loadedCounter = 0;
-            });
-
-            $translateEvents.allPartsLoaded.subscribe(preload, true);
-        }
-
-        /* CACHE */
-        function cacheLanguage(lang) {
-            if (!self.options.cacheSelectedLang) return;
-
-            $translateCache.setLang(lang);
-        }
-
-        function cacheTranslations(lang, values) {
+        function cacheToTranslations(lang, values) {
             if (!self.options.cacheTranslations) return;
 
             $translateCache.setValues(lang, values);
@@ -116,10 +114,10 @@
 
             self.options.lang = lang;
 
-            self.cacheLanguage(lang);
-            self.initTranslations();
+            self.cache.to.language(lang);
+            self.cache.from.translations();
 
-            self.refresh();
+            self.parts.refresh();
 
             $translateEvents.languageChanged.publish();
         }
@@ -134,17 +132,22 @@
                 $translateStorage.setValues(lang, values);
             }
 
-            if (!!lang) return $translateStorage.getValues(self.options.lang);
-
-            return $translateStorage.getValues(lang);
+            if (!!lang) return $translateStorage.getValues(lang);
+                
+            return $translateStorage.getValues(self.options.lang);
         }
 
         function translation(key) {
             return $translateStorage.getValue(self.options.lang, key);
-        }
+        } 
 
         /* PARTS */
-        // TODO: addParts method
+        function addParts() {
+            for (var i = 0; i < arguments.length; i++) {
+                addPart(arguments[i]);
+            }
+        }
+
         function addPart(name) {
             if (!name) return;
 
@@ -167,19 +170,15 @@
                     partOptions.part[partOptions.lang] = true;
                     
                     $translateStorage.setValues(partOptions.lang, values);
-                    self.cacheTranslations(partOptions.lang, values);
+                    self.cache.to.translations(partOptions.lang, values);
                     
                     $translateEvents.partLoaded.publish(partOptions);
                 });
         }
 
-        /* LOADING */
-
-        function refresh() {
-            var lang = self.options.lang;
-
+        function loadParts(lang, force) {
             for (var i = 0; i < self.parts.list.length; i++) {
-                if (self.parts.list[i][lang]) continue;
+                if (self.parts.list[i][lang] && !force) continue;
 
                 var partOptions = {
                     part: self.parts.list[i],
@@ -192,25 +191,34 @@
             }
         }
 
-        
-        function preload() {
+        function refresh(force) {
+            var lang = self.options.lang;
+
+            loadParts(lang, force);
+        }
+
+        /* CALLACKS */
+        function partLoadedCallback(partOptions) {
+            if (partOptions.lang !== self.options.lang) return;
+
+            self.parts.loadedCounter++;
+
+            if (self.parts.loadedCounter === self.parts.list.length) {
+                $translateEvents.allPartsLoaded.publish(partOptions.lang);
+            }
+        }
+
+        function languageChangedCallback() {
+            self.parts.loadedCounter = 0;
+        }
+
+        function preloadCallback() {
             if (!self.options.preloadLanguages) return;
 
             for (var i = 0; i < self.options.preloadLanguages.length; i++) {
                 var lang = self.options.preloadLanguages[i];
 
-                for (var j = 0; j < self.parts.list.length; j++) {
-                    if (self.parts.list[j][lang]) continue;
-
-                    var partOptions = {
-                        part: self.parts.list[j],
-                        lang: lang,
-                        urlTemplate: self.options.urlTemplate,
-                        dataTransformation: self.options.dataTransformation
-                    };
-
-                    self.parts.load(partOptions);
-                }
+                loadParts(lang);
             }
         }
     };
