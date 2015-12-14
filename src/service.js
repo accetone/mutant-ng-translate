@@ -19,13 +19,13 @@
         self.initSubscriptions = initSubscriptions;
 
         self.cache = {
-            to: {
-                language: cacheToLanguage,
-                translations: cacheToTranslations
+            save: {
+                language: cacheSaveLanguage,
+                translations: cacheSaveTranslations
             },
-            from: {
-                language: cacheFromLanguage,
-                translations: cacheFromTranslations
+            load: {
+                language: cacheLoadLanguage,
+                translations: cacheLoadTranslations
             }
         };
 
@@ -59,8 +59,8 @@
             angular.extend(self.options, options);
             self.validateOptions();
 
-            self.cache.from.language();
-            self.cache.from.translations();
+            self.cache.load.language();
+            self.cache.load.translations();
 
             self.initSubscriptions();
         }
@@ -76,7 +76,7 @@
         }
 
         /* CACHE */
-        function cacheFromLanguage() {
+        function cacheLoadLanguage() {
             if (self.options.cacheSelectedLang) {
                 self.options.lang = $translateCache.getLang();
 
@@ -89,20 +89,20 @@
             }
         }
 
-        function cacheToLanguage(lang) {
+        function cacheSaveLanguage(lang) {
             if (!self.options.cacheSelectedLang) return;
 
             $translateCache.setLang(lang);
         }
 
-        function cacheFromTranslations() {
+        function cacheLoadTranslations() {
             if (!self.options.cacheTranslations) return;
 
             var cacheValues = $translateCache.getValues(self.options.lang);
             $translateStorage.setValues(self.options.lang, cacheValues);
         }
 
-        function cacheToTranslations(lang, values) {
+        function cacheSaveTranslations(lang, values) {
             if (!self.options.cacheTranslations) return;
 
             $translateCache.setValues(lang, values);
@@ -114,8 +114,8 @@
 
             self.options.lang = lang;
 
-            self.cache.to.language(lang);
-            self.cache.from.translations();
+            self.cache.save.language(lang);
+            self.cache.load.translations();
 
             self.parts.refresh();
 
