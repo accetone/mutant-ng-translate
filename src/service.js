@@ -170,7 +170,7 @@
                     partOptions.part[partOptions.lang] = true;
                     
                     $translateStorage.setValues(partOptions.lang, values);
-                    self.cache.to.translations(partOptions.lang, values);
+                    self.cache.save.translations(partOptions.lang, values);
                     
                     $translateEvents.partLoaded.publish(partOptions);
                 });
