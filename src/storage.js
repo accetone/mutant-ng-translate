@@ -14,10 +14,12 @@
         self.getValue = getValue;
         self.setValues = setValues;
 
+        self.exists = exists;
+
         return self;
 
         function getValues(lang) {
-            if (!self.langs.hasOwnProperty(lang)) {
+            if (!self.exists(lang)) {
                 self.langs[lang] = {};
             }
 
@@ -25,7 +27,7 @@
         }
 
         function getValue(lang, key) {
-            if (!self.langs.hasOwnProperty(lang) || !self.langs[lang].hasOwnProperty(key)) {
+            if (!self.exists(lang, key)) {
                 return key;
             }
 
@@ -40,6 +42,14 @@
             angular.extend(self.langs[lang], values);
 
             $translateEvents.translationsUpdated.publish();
+        }
+
+        function exists(lang, key) {
+            if (!self.langs.hasOwnProperty(lang)) return false;
+
+            if (!!key && !self.langs[lang].hasOwnProperty(key)) return false;
+
+            return true;
         }
     };
 })();
