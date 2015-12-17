@@ -58,6 +58,8 @@
         function setTranslations(lang, values) {
             self.storage.set.translations(lang, values);
             self.cache.set.translations(lang, values);
+
+            $translateEvents.translationsUpdated.publish({ lang: lang });
         }
 
         function getTranslations(lang) {
@@ -139,8 +141,6 @@
 
         function storageSetTranslations(lang, values) {
             $translateStorage.setValues(lang, values);
-            
-            $translateEvents.translationsUpdated.publish({ lang: lang });
         }
     }
 })();
