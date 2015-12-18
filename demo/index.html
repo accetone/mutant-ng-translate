@@ -27,10 +27,10 @@
                             urlTemplate: '/locale-{part}-{lang}.json'
                         });
 
-                        $translate.parts.add('first', 'second');
+                        $translate.addParts('first', 'second');
 
                         $scope.switchLang = function () {
-                            if ($translate.options.lang === 'en') $translate.use('ru');
+                            if ($translate.current() === 'en') $translate.use('ru');
                             else $translate.use('en');
                         };
                     }
