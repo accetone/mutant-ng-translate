@@ -47,20 +47,20 @@
         }
 
         /* PARTS */
-        function addParts(names, lang) {
+        function addParts(names, lang, storageCallback) {
             for (var i = 0; i < names.length; i++) {
-                self.addPart(names[i], lang);
+                self.addPart(names[i], lang, storageCallback);
             }
         }
 
-        function addPart(name, lang) {
+        function addPart(name, lang, storageCallback) {
             // TODO: check if part with this name already added
             if (!name) return;
 
             var part = { name: name };
             self.parts.push(part);
 
-            self.loadPart(part, lang);
+            self.loadPart(part, lang, storageCallback);
         }
         
         function loadParts(lang, storageCallback, force) {
@@ -69,9 +69,9 @@
             }
 
             for (var i = 0; i < self.parts.length; i++) {
-                if (!force && !self.needLoad(self.parts[i], lang, storageCallback)) continue;
+                if (!force && !self.sync.needLoad(self.parts[i], lang, storageCallback)) continue;
 
-                self.parts.load(self.parts[i], lang);
+                self.loadPart(self.parts[i], lang, storageCallback);
             }
         }
 
