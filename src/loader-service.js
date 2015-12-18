@@ -63,19 +63,19 @@
             self.loadPart(part, lang);
         }
         
-        function loadParts(lang, force) {
+        function loadParts(lang, storageCallback, force) {
             if (force) {
                 self.sync.resetCounter(lang);
             }
 
             for (var i = 0; i < self.parts.length; i++) {
-                if (!force && !self.needLoad(self.parts[i], lang)) continue;
+                if (!force && !self.needLoad(self.parts[i], lang, storageCallback)) continue;
 
                 self.parts.load(self.parts[i], lang);
             }
         }
 
-        function loadPart(part, lang) {
+        function loadPart(part, lang, storageCallback) {
             self.sync.loadingOn(part, lang);
 
             var partOptions = {
@@ -85,20 +85,15 @@
                 dataTransformation: self.options.dataTransformation
             };
 
-            return $q(function (resolve, reject) {
-                $translateLoader
-                    .loadPart(partOptions)
-                    .then(function(values) {
-                        self.sync.loadingOff(part, lang);
-                        self.sync.increaseCounter(lang);
-                        self.sync.checkCounter(lang);
+            $translateLoader
+                .loadPart(partOptions)
+                .then(function(values) {
+                    self.sync.loadingOff(part, lang);
+                    self.sync.increaseCounter(lang);
+                    self.sync.checkCounter(lang);
 
-                        resolve(values);
-                    })
-                    .catch(function(error) {
-                        reject(error);
-                    });
-            });
+                    storageCallback(lang, values);
+                });
         }
 
         /* SYNCHRONIZATION */
