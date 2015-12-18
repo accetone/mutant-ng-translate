@@ -93,6 +93,8 @@
                     self.sync.checkCounter(lang);
 
                     storageCallback(lang, values);
+
+                    $translateEvents.partLoaded.publish(partOptions);
                 });
         }
 
