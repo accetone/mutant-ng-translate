@@ -104,7 +104,7 @@
             return lang;
         }
 
-        function cacheSetLanguage() {
+        function cacheSetLanguage(lang) {
             if (!self.options.cacheSelectedLang) return;
 
             $translateCache.setLang(lang);
