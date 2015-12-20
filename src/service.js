@@ -10,9 +10,14 @@
 
         self.options = {
             dataTransformation: $tranlslateUtils.directDataTransformation,
-            cacheTranslations: true,
-            cacheSelectedLang: true,
-            preloadLanguages: []
+            cache: {
+                translations: true,
+                lang: true
+            },
+            preload: {
+                enabled: false,
+                langs: []
+            }
         };
         
         self.config = config;

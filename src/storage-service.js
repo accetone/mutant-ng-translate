@@ -93,7 +93,7 @@
         function cacheGetLanguage() {
             var lang = undefined;
 
-            if (self.options.cacheSelectedLang) {
+            if (self.options.cache.lang) {
                 lang = $translateCache.getLang();
             }
 
@@ -105,19 +105,19 @@
         }
 
         function cacheSetLanguage(lang) {
-            if (!self.options.cacheSelectedLang) return;
+            if (!self.options.cache.lang) return;
 
             $translateCache.setLang(lang);
         }
 
         function cacheGetTranslations(lang) {
-            if (!self.options.cacheTranslations) return {};
+            if (!self.options.cache.translations) return {};
 
             return $translateCache.getValues(lang);
         }
 
         function cacheSetTranslations(lang, values) {
-            if (!self.options.cacheTranslations) return;
+            if (!self.options.cache.translations) return;
 
             $translateCache.setValues(lang, values);
         }

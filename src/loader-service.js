@@ -43,7 +43,9 @@
         function config(options) {
             self.options = options;
 
-            $translateEvents.allPartsLoaded.subscribe(self.preload, true);
+            if (self.options.preload.enabled) {
+                $translateEvents.allPartsLoaded.subscribe(self.preload, true);
+            }
         }
 
         /* PARTS */
@@ -137,10 +139,10 @@
 
         /* PRELOAD */
         function preload() {
-            if (!self.options.preloadLanguages) return;
+            if (!self.options.preload.langs) return;
 
-            for (var i = 0; i < self.options.preloadLanguages.length; i++) {
-                var lang = self.options.preloadLanguages[i];
+            for (var i = 0; i < self.options.preload.langs.length; i++) {
+                var lang = self.options.preload.langs[i];
 
                 self.loadParts(lang);
             }
