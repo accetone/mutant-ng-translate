@@ -23,7 +23,10 @@
                     '$scope', '$translate', function ($scope, $translate) {
                         $translate.config({
                             defaultLang: 'en',
-                            preloadLanguages: ['en', 'ru'],
+                            preload: {
+                                enabled: false,
+                                langs: ['en', 'ru']
+                            },
                             urlTemplate: '/locale-{part}-{lang}.json'
                         });
 
