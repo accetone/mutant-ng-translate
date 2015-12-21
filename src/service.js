@@ -40,14 +40,16 @@
         /* INITIALIZATION */
         function config(options) {
             angular.extend(self.options, options);
-            self.validateOptions();
+            self.validateOptions(self.options);
 
             $storage.config(self.options);
             $loader.config(self.options, $storage.setTranslations);
         }
 
-        function validateOptions() {
-            $tranlslateUtils.validateOptions(self.options);
+        function validateOptions(options) {
+            if (!options.defaultLang) {
+                throw new Error('[mutant-ng-translate]: you didn\'t specify default language');
+            }
         }
 
         /* LANGS */

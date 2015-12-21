@@ -12,12 +12,6 @@
             return values;
         };
 
-        self.validateOptions = function (options) {
-            if (!options.defaultLang) {
-                throw new Error('[mutant-ng-translate]: you didn\'t specify default language');
-            }
-        };
-
         return self;
     };
 })();
