@@ -43,7 +43,7 @@
             self.validateOptions();
 
             $storage.config(self.options);
-            $loader.config(self.options);
+            $loader.config(self.options, $storage.setTranslations);
         }
 
         function validateOptions() {
@@ -55,7 +55,7 @@
             if ($storage.getLanguage() === lang) return;
 
             $storage.setLanguage(lang);
-            $loader.loadParts(lang, $storage.setTranslations, false);
+            $loader.loadParts(lang, false);
         }
 
         function currentLang() {
@@ -85,19 +85,19 @@
         function addParts() {
             var lang = $storage.getLanguage();
 
-            $loader.addParts(arguments, lang, $storage.setTranslations);
+            $loader.addParts(arguments, lang);
         }
 
         function addPart(name) {
             var lang = $storage.getLanguage();
 
-            $loader.addPart(name, lang, $storage.setTranslations);
+            $loader.addPart(name, lang);
         }
 
         function refresh(force) {
             var lang = $storage.getLanguage();
 
-            $loader.loadParts(lang, $storage.setTranslations, force);
+            $loader.loadParts(lang, force);
         }
     };
 })();

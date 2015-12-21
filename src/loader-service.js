@@ -10,6 +10,7 @@
 
         self.config = config;
         self.options = undefined;
+        self.storageCallback = undefined;
 
         self.parts = [];
 
@@ -40,8 +41,9 @@
         return self;
 
         /* CONFIG */
-        function config(options) {
+        function config(options, storageCallback) {
             self.options = options;
+            self.storageCallback = storageCallback;
 
             if (self.options.preload.enabled) {
                 $translateEvents.allPartsLoaded.subscribe(self.preload, true);
@@ -49,35 +51,35 @@
         }
 
         /* PARTS */
-        function addParts(names, lang, storageCallback) {
+        function addParts(names, lang) {
             for (var i = 0; i < names.length; i++) {
-                self.addPart(names[i], lang, storageCallback);
+                self.addPart(names[i], lang);
             }
         }
 
-        function addPart(name, lang, storageCallback) {
+        function addPart(name, lang) {
             // TODO: check if part with this name already added
             if (!name) return;
 
             var part = { name: name };
             self.parts.push(part);
 
-            self.loadPart(part, lang, storageCallback);
+            self.loadPart(part, lang);
         }
         
-        function loadParts(lang, storageCallback, force) {
+        function loadParts(lang, force) {
             if (force) {
                 self.sync.resetCounter(lang);
             }
 
             for (var i = 0; i < self.parts.length; i++) {
-                if (!force && !self.sync.needLoad(self.parts[i], lang, storageCallback)) continue;
+                if (!force && !self.sync.needLoad(self.parts[i], lang)) continue;
 
-                self.loadPart(self.parts[i], lang, storageCallback);
+                self.loadPart(self.parts[i], lang);
             }
         }
 
-        function loadPart(part, lang, storageCallback) {
+        function loadPart(part, lang) {
             self.sync.loadingOn(part, lang);
 
             var partOptions = {
@@ -94,7 +96,7 @@
                     self.sync.increaseCounter(lang);
                     self.sync.checkCounter(lang);
 
-                    storageCallback(lang, values);
+                    self.storageCallback(lang, values);
 
                     $translateEvents.partLoaded.publish(partOptions);
                 });
