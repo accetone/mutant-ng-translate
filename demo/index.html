@@ -19,19 +19,24 @@
     <script>
         (function() {
             angular.module('MyApp', ['mutant-ng-translate'])
+                .config(['$translateProvider', function ($translateProvider) {
+                    var $translate = $translateProvider.$get();
+
+                    $translate.config({
+                        defaultLang: 'en',
+                        preload: {
+                            enabled: true,
+                            langs: ['en', 'ru'],
+                            delay: 5000
+                        },
+                        urlTemplate: '/locale-{part}-{lang}.json'
+                    });
+
+                    $translate.addParts('first', 'second');
+                }])
                 .controller('MyCtrl', [
                     '$scope', '$translate', function ($scope, $translate) {
-                        $translate.config({
-                            defaultLang: 'en',
-                            preload: {
-                                enabled: true,
-                                langs: ['en', 'ru'],
-                                delay: 5000
-                            },
-                            urlTemplate: '/locale-{part}-{lang}.json'
-                        });
-
-                        $translate.addParts('first', 'second');
+                        
 
                         $scope.switchLang = function () {
                             if ($translate.current() === 'en') $translate.use('ru');
