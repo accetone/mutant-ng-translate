@@ -16,7 +16,8 @@
             },
             preload: {
                 enabled: false,
-                langs: []
+                langs: [],
+                delay: 0
             }
         };
         

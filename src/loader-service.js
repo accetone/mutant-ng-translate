@@ -3,9 +3,9 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateLoaderSvc', ['$translateLoader', '$translateEvents', translateLoaderSvc]);
+        .factory('$translateLoaderSvc', ['$timeout', '$translateLoader', '$translateEvents', translateLoaderSvc]);
 
-    function translateLoaderSvc($translateLoader, $translateEvents) {
+    function translateLoaderSvc($timeout, $translateLoader, $translateEvents) {
         var self = this;
 
         self.config = config;
@@ -141,11 +141,13 @@
         function preload() {
             if (!self.options.preload.langs) return;
 
-            for (var i = 0; i < self.options.preload.langs.length; i++) {
-                var lang = self.options.preload.langs[i];
+            $timeout(function () {
+                for (var i = 0; i < self.options.preload.langs.length; i++) {
+                    var lang = self.options.preload.langs[i];
 
-                self.loadParts(lang);
-            }
+                    self.loadParts(lang);
+                }
+            }, self.options.preload.delay);
         }
     }
 })();
