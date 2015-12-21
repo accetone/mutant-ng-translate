@@ -1,4 +1,6 @@
-﻿var http = require('http'),
+﻿process.chdir(__dirname);
+
+var http = require('http'),
     fs = require('fs');
 
 var send404 = function(response) {
