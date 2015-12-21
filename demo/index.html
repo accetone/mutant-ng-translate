@@ -24,8 +24,9 @@
                         $translate.config({
                             defaultLang: 'en',
                             preload: {
-                                enabled: false,
-                                langs: ['en', 'ru']
+                                enabled: true,
+                                langs: ['en', 'ru'],
+                                delay: 5000
                             },
                             urlTemplate: '/locale-{part}-{lang}.json'
                         });
