@@ -1,3 +1,4 @@
+/// <binding ProjectOpened='watch, server' />
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var nodemon = require('gulp-nodemon');
