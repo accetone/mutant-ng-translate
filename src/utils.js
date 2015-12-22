@@ -12,6 +12,13 @@
             return values;
         };
 
+        self.error = {
+            prefix: '[mutant-ng-translate]: ',
+            throw: function (message) {
+                throw new Error(self.error.prefix + message);
+            }
+        };
+
         return self;
     };
 })();
