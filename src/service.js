@@ -3,9 +3,9 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translate', ['$translateUtils', '$translateStorageSvc', '$translateLoaderSvc', translate]);
+        .factory('$translate', ['$translateUtils', '$translateStorageSvc', '$translateLoaderSvc', '$translateUtils', translate]);
 
-    function translate($tranlslateUtils, $storage, $loader) {
+    function translate($tranlslateUtils, $storage, $loader, $utils) {
         var self = this;
 
         self.options = {
@@ -47,8 +47,61 @@
         }
 
         function validateOptions(options) {
+            // default lang
             if (!options.defaultLang) {
-                throw new Error('[mutant-ng-translate]: you didn\'t specify default language');
+                $utils.error.throw('you didn\'t specify default language');
+            }
+
+            if (typeof options.defaultLang !== 'string') {
+                $utils.error.throw('incorrect value for default language');
+            }
+
+            // url template
+            if (!options.urlTemplate) {
+                $utils.error.throw('you didn\'t specify url template');
+            }
+
+            if (typeof options.urlTemplate !== 'string') {
+                $utils.error.throw('incorrect value url template');
+            }
+
+            if (options.urlTemplate.indexOf('{lang}') === -1) {
+                $utils.error.throw('url template should contain at least {lang} expression');
+            }
+
+            // data transformation
+            if (typeof options.dataTransformation !== 'function') {
+                $utils.error.throw('incorrect value for data transformation');
+            }
+
+            // cache
+            if (typeof options.cache !== 'object') {
+                $utils.error.throw('incorrect value for cache');
+            }
+
+            if (typeof options.cache.translations !== 'boolean') {
+                $utils.error.throw('incorrect value for cache translations');
+            }
+
+            if (typeof options.cache.lang !== 'boolean') {
+                $utils.error.throw('incorrect value for cache language');
+            }
+
+            // preload
+            if (typeof options.preload !== 'object') {
+                $utils.error.throw('incorrect value for preload');
+            }
+
+            if (typeof options.preload.enabled !== 'boolean') {
+                $utils.error.throw('incorrect value for preload enabled');
+            }
+
+            if (Object.prototype.toString.call(options.preload.langs) !== '[object Array]') {
+                $utils.error.throw('incorrect value for preload langs');
+            }
+
+            if (typeof options.preload.delay !== 'number') {
+                $utils.error.throw('incorrect value for preload delay');
             }
         }
 
