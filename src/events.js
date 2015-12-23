@@ -11,7 +11,7 @@
         self.partLoaded = new event();
         self.allPartsLoaded = new event();
         self.translationsUpdated = new event();
-        self.languageChanged = new event();
+        self.langChanged = new event();
 
         return self;
     };

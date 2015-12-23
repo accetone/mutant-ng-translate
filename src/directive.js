@@ -16,7 +16,7 @@
             };
 
             $translateEvents.translationsUpdated.subscribe(update);
-            $translateEvents.languageChanged.subscribe(update);
+            $translateEvents.langChanged.subscribe(update);
 
             element.innerHTML = $translate.translation(translitionKey);
         };

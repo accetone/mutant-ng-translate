@@ -107,20 +107,20 @@
 
         /* LANGS */
         function use(lang) {
-            if ($storage.getLanguage() === lang) return;
+            if ($storage.getLang() === lang) return;
 
-            $storage.setLanguage(lang);
+            $storage.setLang(lang);
             $loader.loadParts(lang, false);
         }
 
         function currentLang() {
-            return $storage.getLanguage();
+            return $storage.getLang();
         }
 
         /* TRANSLATIONS */
         function translations(lang, values) {
             if (!lang) {
-                lang = $storage.getLanguage();
+                lang = $storage.getLang();
             }
 
             if (!!values) {
@@ -131,26 +131,26 @@
         }
 
         function translation(key) {
-            var lang = $storage.getLanguage();
+            var lang = $storage.getLang();
 
             return $storage.getTranslation(lang, key);
         } 
 
         /* PARTS */
         function addParts() {
-            var lang = $storage.getLanguage();
+            var lang = $storage.getLang();
 
             $loader.addParts(arguments, lang);
         }
 
         function addPart(name) {
-            var lang = $storage.getLanguage();
+            var lang = $storage.getLang();
 
             $loader.addPart(name, lang);
         }
 
         function refresh(force) {
-            var lang = $storage.getLanguage();
+            var lang = $storage.getLang();
 
             $loader.loadParts(lang, force);
         }

@@ -13,23 +13,23 @@
 
         self.cache = {
             get: {
-                language: cacheGetLanguage,
+                lang: cacheGetLang,
                 translations: cacheGetTranslations
             },
             set: {
-                language: cacheSetLanguage,
+                lang: cacheSetLang,
                 translations: cacheSetTranslations
             }
         };
 
         self.storage = {
             get: {
-                language: storageGetLanguage,
+                lang: storageGetLang,
                 translations: storageGetTranslations,
                 translation: storageGetTranslation
             },
             set: {
-                language: storageSetLanguage,
+                lang: storageSetLang,
                 translations: storageSetTranslations
             }
         };
@@ -38,8 +38,8 @@
         self.getTranslations = getTranslations;
         self.getTranslation = getTranslation;
 
-        self.setLanguage = setLanguage;
-        self.getLanguage = getLanguage;
+        self.setLang = setLang;
+        self.getLang = getLang;
 
         return self;
 
@@ -47,10 +47,10 @@
         function config(options) {
             self.options = options;
 
-            var lang = self.cache.get.language();
+            var lang = self.cache.get.lang();
             var translations = self.cache.get.translations(lang);
 
-            self.storage.set.language(lang);
+            self.storage.set.lang(lang);
             self.storage.set.translations(lang, translations);
         }
 
@@ -71,26 +71,26 @@
         }
 
         /* LANGUAGE */
-        function setLanguage(lang) {
-            var oldLang = self.storage.get.language();
+        function setLang(lang) {
+            var oldLang = self.storage.get.lang();
 
-            self.storage.set.language(lang);
-            self.cache.set.language(lang);
+            self.storage.set.lang(lang);
+            self.cache.set.lang(lang);
 
             if (!$translateStorage.exists(lang)) {
                 var translations = self.cache.get.translations(lang);
                 self.storage.set.translations(lang, translations);
             }
 
-            $translateEvents.languageChanged.publish({ from: oldLang, to: lang });
+            $translateEvents.langChanged.publish({ from: oldLang, to: lang });
         }
 
-        function getLanguage() {
-            return self.storage.get.language();
+        function getLang() {
+            return self.storage.get.lang();
         }
 
         /* CACHE */
-        function cacheGetLanguage() {
+        function cacheGetLang() {
             var lang = undefined;
 
             if (self.options.cache.lang) {
@@ -104,7 +104,7 @@
             return lang;
         }
 
-        function cacheSetLanguage(lang) {
+        function cacheSetLang(lang) {
             if (!self.options.cache.lang) return;
 
             $translateCache.setLang(lang);
@@ -123,11 +123,11 @@
         }
 
         /* STORAGE */
-        function storageGetLanguage() {
+        function storageGetLang() {
             return self.options.lang;
         }
 
-        function storageSetLanguage(lang) {
+        function storageSetLang(lang) {
             self.options.lang = lang;
         }
 
