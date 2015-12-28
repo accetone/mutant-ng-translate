@@ -35,11 +35,15 @@ describe('The translate storage test suite', function () {
         };
     });
 
-    it('should be defined', function() {
-        expect($translateStorage).toBeDefined();
+    describe('Common tests', function() {
+        it('should be defined', function () {
+            expect($translateStorage).toBeDefined();
+        });
+
+        it('should be an object', function () {
+            expect(typeof $translateStorage).toBe('object');
+        });
     });
 
-    it('should be an object', function () {
-        expect(typeof $translateStorage).toBe('object');
     });
 });
