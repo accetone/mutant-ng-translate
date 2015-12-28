@@ -11,7 +11,7 @@ describe('The translate storage test suite', function () {
         });
 
         en = {
-            key: 'en',
+            lang: 'en',
             values: {
                 'apple': 'Hello, Apple!',
                 'pear': 'Hello, Pear!'
@@ -19,11 +19,12 @@ describe('The translate storage test suite', function () {
             moreValues: {
                 'apple': 'Hello, Apple 2!',
                 'peach': 'Hello, Peach!'
-            }
+            },
+            key: 'apple'
         };
 
         ru = {
-            key: 'ru',
+            lang: 'ru',
             values: {
                 'apple': 'Привет, Яблоко!',
                 'pear': 'Привет, Груша!'
@@ -31,7 +32,8 @@ describe('The translate storage test suite', function () {
             moreValues: {
                 'apple': 'Привет, Яблоко 2!',
                 'peach': 'Привет, Персик!'
-            }
+            },
+            key: 'apple'
         };
     });
 
