@@ -23,4 +23,12 @@ describe('The translate storage test suite', function () {
             'pear': 'Привет, Груша!'
         };
     });
+
+    it('should be defined', function() {
+        expect($translateStorage).toBeDefined();
+    });
+
+    it('should be an object', function () {
+        expect(typeof $translateStorage).toBe('object');
+    });
 });
