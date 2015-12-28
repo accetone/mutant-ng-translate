@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 describe('The translate storage test suite', function () {
-    var $translateStorage, firstLang, secondLang, firstValues, secondValues;
+    var $translateStorage, en, ru;
 
     beforeEach(function () {
         module('mutant-ng-translate');
@@ -9,18 +9,29 @@ describe('The translate storage test suite', function () {
         inject(function (_$translateStorage_) {
             $translateStorage = _$translateStorage_;
         });
-        
-        firstLang = 'en';
-        secondLang = 'ru';
 
-        firstValues = {
-            'apple': 'Hello, Apple!',
-            'pear': 'Hello, Pear!'
+        en = {
+            key: 'en',
+            values: {
+                'apple': 'Hello, Apple!',
+                'pear': 'Hello, Pear!'
+            },
+            moreValues: {
+                'apple': 'Hello, Apple 2!',
+                'peach': 'Hello, Peach!'
+            }
         };
 
-        secondValues = {
-            'apple': 'Привет, Яблоко!',
-            'pear': 'Привет, Груша!'
+        ru = {
+            key: 'ru',
+            values: {
+                'apple': 'Привет, Яблоко!',
+                'pear': 'Привет, Груша!'
+            },
+            moreValues: {
+                'apple': 'Привет, Яблоко 2!',
+                'peach': 'Привет, Персик!'
+            }
         };
     });
 
