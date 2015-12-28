@@ -20,6 +20,11 @@ describe('The translate storage test suite', function () {
                 'apple': 'Hello, Apple 2!',
                 'peach': 'Hello, Peach!'
             },
+            mergedValues: {
+                'apple': 'Hello, Apple 2!',
+                'pear': 'Hello, Pear!',
+                'peach': 'Hello, Peach!'
+            },
             key: 'apple'
         };
 
@@ -31,6 +36,11 @@ describe('The translate storage test suite', function () {
             },
             moreValues: {
                 'apple': 'Привет, Яблоко 2!',
+                'peach': 'Привет, Персик!'
+            },
+            mergedValues: {
+                'apple': 'Привет, Яблоко 2!',
+                'pear': 'Привет, Груша!',
                 'peach': 'Привет, Персик!'
             },
             key: 'apple'
