@@ -25,7 +25,8 @@ describe('The translate storage test suite', function () {
                 'pear': 'Hello, Pear!',
                 'peach': 'Hello, Peach!'
             },
-            key: 'apple'
+            key: 'apple',
+            notExistKey: 'lime'
         };
 
         ru = {
@@ -33,17 +34,7 @@ describe('The translate storage test suite', function () {
             values: {
                 'apple': 'Привет, Яблоко!',
                 'pear': 'Привет, Груша!'
-            },
-            moreValues: {
-                'apple': 'Привет, Яблоко 2!',
-                'peach': 'Привет, Персик!'
-            },
-            mergedValues: {
-                'apple': 'Привет, Яблоко 2!',
-                'pear': 'Привет, Груша!',
-                'peach': 'Привет, Персик!'
-            },
-            key: 'apple'
+            }
         };
     });
 
