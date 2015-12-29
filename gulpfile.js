@@ -1,7 +1,8 @@
-/// <binding ProjectOpened='watch, server' />
+/// <binding ProjectOpened='watch, server, tests' />
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var nodemon = require('gulp-nodemon');
+var karmaServer = require('karma').Server;
 
 gulp.task('build', function () {
     return gulp
@@ -18,4 +19,10 @@ gulp.task('server', function() {
     nodemon({
         script: './demo/server.js'
     });
+});
+
+gulp.task('tests', function (done) {
+    new karmaServer({
+        configFile: __dirname + '/karma.conf.js'
+    }, done).start();
 });
