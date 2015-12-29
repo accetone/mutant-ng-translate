@@ -48,6 +48,37 @@ describe('The translate storage test suite', function () {
         });
     });
 
+    describe('Exists tests', function() {
+        it('should return false if called without params', function() {
+            var exists = $translateStorage.exists();
+
+            expect(exists).toBe(false);
+        });
+
+        it('should return false if called before set', function () {
+            var existsLang = $translateStorage.exists(en.lang);
+            var existsKey = $translateStorage.exists(en.lang, en.key);
+
+            expect(existsLang).toBe(false);
+            expect(existsKey).toBe(false);
+        });
+
+        it('should return true if called after set', function () {
+            $translateStorage.setValues(en.lang, en.values);
+            var existsLang = $translateStorage.exists(en.lang);
+            var existsKey = $translateStorage.exists(en.lang, en.key);
+
+            expect(existsLang).toBe(true);
+            expect(existsKey).toBe(true);
+        });
+
+        it('should return false if key not exist', function () {
+            $translateStorage.setValues(en.lang, en.values);
+            var exists = $translateStorage.exists(en.lang, en.notExistKey);
+
+            expect(exists).toBe(false);
+        });
+    });
 
     describe('Get/set tests', function() {
         it('should return an empty object if called without lang', function () {
