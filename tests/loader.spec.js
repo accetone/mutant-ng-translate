@@ -60,4 +60,33 @@ describe('The translate loader test suite', function() {
             expect(typeof $translateLoader).toBe('object');
         });
     });
+
+    describe('Load part tests', function () {
+        it('should return promise', function() {
+            options.part = { name: 'first' };
+            options.lang = en.lang;
+
+            var promise = $translateLoader.loadPart(options);
+
+            expect(promise.then).toBeDefined();
+            expect(typeof promise.then).toBe('function');
+
+            $httpBackend.flush();
+        });
+
+        it('should return not modified values', function(done) {
+            options.part = { name: 'first' };
+            options.lang = en.lang;
+
+            $translateLoader
+                .loadPart(options)
+                .then(function (values) {
+                    expect(values).toEqual(en.values);
+                    done();
+                });
+
+            $httpBackend.flush();
+        });
+
+    });
 });
