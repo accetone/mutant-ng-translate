@@ -26,11 +26,17 @@ describe('The translate loader test suite', function() {
                 urlTemplate: '/locale-{part}-{lang}.json',
                 dataTransformation: function(x) {
                     return x;
-                }
+                },
+                part: { name: 'first' },
+                lang: en.lang
             }
 
             $httpBackend
                 .when('GET', '/locale-first-en.json')
+                .respond(200, en.values);
+
+            $httpBackend
+                .when('GET', '/locale-first-en-first-en.json')
                 .respond(200, en.values);
         });
     });
@@ -47,9 +53,6 @@ describe('The translate loader test suite', function() {
 
     describe('Load part tests', function () {
         it('should return promise', function() {
-            options.part = { name: 'first' };
-            options.lang = en.lang;
-
             var promise = $translateLoader.loadPart(options);
 
             expect(promise.then).toBeDefined();
@@ -59,8 +62,6 @@ describe('The translate loader test suite', function() {
         });
 
         it('should return not modified values', function(done) {
-            options.part = { name: 'first' };
-            options.lang = en.lang;
 
             $translateLoader
                 .loadPart(options)
