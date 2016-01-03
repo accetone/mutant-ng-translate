@@ -62,11 +62,44 @@ describe('The translate loader test suite', function() {
         });
 
         it('should return not modified values', function(done) {
+            $translateLoader
+                .loadPart(options)
+                .then(function (values) {
+                    expect(values).toEqual(en.values);
+                })
+                .finally(done);
+
+            $httpBackend.flush();
+        });
+
+        it('should process urlTemplate with multiple patterns', function (done) {
+            options.urlTemplate = '/locale-{part}-{lang}-{part}-{lang}.json';
 
             $translateLoader
                 .loadPart(options)
                 .then(function (values) {
                     expect(values).toEqual(en.values);
+                })
+                .finally(done);
+
+            $httpBackend.flush();
+        });
+
+        it('should return transformed values', function (done) {
+            options.dataTransformation = function(x) {
+                for (var p in x) {
+                    if (!x.hasOwnProperty(p)) continue;
+
+                    x[p] = x[p] + x[p];
+                };
+
+                return x;
+            };
+
+            $translateLoader
+                .loadPart(options)
+                .then(function (values) {
+                    expect(values).toEqual(en.transformedValues);
                 })
                 .finally(done);
 
