@@ -19,6 +19,17 @@
             }
         };
 
+        self.warning = {
+            write: console != undefined
+                && console.warn != undefined
+                && typeof console.warn === 'function'
+                ? console.warn
+                : function() {},
+            throw: function(message) {
+                self.warning.write(self.error.prefix + message);
+            }
+        };
+
         return self;
     };
 })();
