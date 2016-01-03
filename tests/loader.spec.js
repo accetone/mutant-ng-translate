@@ -66,11 +66,10 @@ describe('The translate loader test suite', function() {
                 .loadPart(options)
                 .then(function (values) {
                     expect(values).toEqual(en.values);
-                    done();
-                });
+                })
+                .finally(done);
 
             $httpBackend.flush();
         });
-
     });
 });
