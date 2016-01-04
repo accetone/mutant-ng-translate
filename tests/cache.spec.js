@@ -6,6 +6,8 @@ describe('The translate cache test suite', function() {
     beforeEach(function () {
         module('mutant-ng-translate');
 
+        window.localStorage.clear();
+
         inject(function (_$translateCache_) {
             $translateCache = _$translateCache_;
         });
