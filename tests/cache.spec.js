@@ -90,4 +90,27 @@ describe('The translate cache test suite', function() {
             expect(values).toEqual(en.mergedValues);
         });
     });
+
+    describe('Get/set lang tests', function() {
+        it('should return an undefined if called without set', function () {
+            var lang = $translateCache.getLang();
+
+            expect(lang).toEqual(undefined);
+        });
+
+        it('should return the lang set before', function () {
+            $translateCache.setLang(en.lang);
+            var lang = $translateCache.getLang();
+
+            expect(lang).toEqual(en.lang);
+        });
+
+        it('should return last lang set', function () {
+            $translateCache.setLang(en.lang);
+            $translateCache.setLang(ru.lang);
+            var lang = $translateCache.getLang();
+
+            expect(lang).toEqual(ru.lang);
+        });
+    });
 });
