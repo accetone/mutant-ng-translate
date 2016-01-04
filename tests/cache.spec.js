@@ -49,4 +49,45 @@ describe('The translate cache test suite', function() {
             expect(typeof $translateCache).toBe('object');
         });
     });
+
+    describe('Get/set values tests', function () {
+        it('should return an empty object if called without lang', function () {
+            var values = $translateCache.getValues();
+
+            expect(values).toEqual({});
+        });
+
+        it('should return an empty object if called before set', function () {
+            var values = $translateCache.getValues(en.key);
+
+            expect(values).toEqual({});
+        });
+
+        it('should return the values set before', function () {
+            $translateCache.setValues(en.lang, en.values);
+            $translateCache.setValues(ru.lang, ru.values);
+
+            var enValues = $translateCache.getValues(en.lang);
+            var ruValues = $translateCache.getValues(ru.lang);
+
+            expect(enValues).toEqual(en.values);
+            expect(ruValues).toEqual(ru.values);
+        });
+
+        it('should not change values if called without values', function () {
+            $translateCache.setValues(en.lang, en.values);
+            $translateCache.setValues(en.lang);
+            var values = $translateCache.getValues(en.lang);
+
+            expect(values).toEqual(en.values);
+        });
+
+        it('should use last value if key already exist', function () {
+            $translateCache.setValues(en.lang, en.values);
+            $translateCache.setValues(en.lang, en.moreValues);
+            var values = $translateCache.getValues(en.lang);
+
+            expect(values).toEqual(en.mergedValues);
+        });
+    });
 });
