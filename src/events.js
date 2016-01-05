@@ -3,20 +3,20 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateEvents', [tranlslateEvents]);
+        .factory('$translateEvents', ['$translateUtils', tranlslateEvents]);
 
-    function tranlslateEvents() {
+    function tranlslateEvents($utils) {
         var self = this;
 
-        self.partLoaded = new event();
-        self.allPartsLoaded = new event();
-        self.translationsUpdated = new event();
-        self.langChanged = new event();
+        self.partLoaded = new event($utils);
+        self.allPartsLoaded = new event($utils);
+        self.translationsUpdated = new event($utils);
+        self.langChanged = new event($utils);
 
         return self;
     };
 
-    function event() {
+    function event($utils) {
         var self = this;
        
         self.subscribers = [];
@@ -33,6 +33,12 @@
         };
 
         function subscribe(callback, disposable) {
+            if (callback == undefined) {
+                $utils.error.throw('callback must be defined to subscribe for an event');
+            } else if (typeof callback !== 'function') {
+                $utils.error.throw('callback must be a function to subscribe for an event');
+            }
+
             var subscriber = {
                 id: self.generateId(),
                 callback: disposable 
