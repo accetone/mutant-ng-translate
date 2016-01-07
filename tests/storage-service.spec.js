@@ -121,8 +121,122 @@ describe('Translate storage suite >>', function() {
         });
     });
 
-    describe('Translations get/set tests >>', function() {
-        it('', function() {
+    describe('Translations get/set tests >>', function () {
+        beforeEach(function() {
+            $service.config(options);
+        });
+        
+        // get
+        it('should return empty object if called without params', function () {
+            var translations = $service.getTranslations();
+
+            expect(translations).toEqual({});
+        });
+
+        it('should return empty object if values for lang isn\'t available', function () {
+            $service.setTranslations(en.lang, en.values);
+            var translations = $service.getTranslations(ru.lang);
+
+            expect(translations).toEqual({});
+        });
+
+        it('should return values from storage', function () {
+            $storage.setValues(en.lang, en.values);
+
+            var translations = $service.getTranslations(en.lang);
+            var values = $storage.getValues(en.lang);
+
+            expect(translations).toEqual(values);
+        });
+
+        it('should not return values from cache', function () {
+            $cache.setValues(en.lang, en.values);
+
+            var translations = $service.getTranslations(en.lang);
+            var values = $cache.getValues(en.lang);
+
+            expect(translations).not.toEqual(values);
+        });
+
+        it('should return undefined if called without params or without key', function () {
+            $service.setTranslations(en.lang, en.values);
+
+            var value1 = $service.getTranslation();
+            var value2 = $service.getTranslation(en.lang);
+
+            expect(value1).toEqual(undefined);
+            expect(value2).toEqual(undefined);
+        });
+
+        it('should return value if key exist', function () {
+            $service.setTranslations(en.lang, en.values);
+
+            var value = $service.getTranslation(en.lang, en.key);
+
+            expect(value).toEqual(en.values[en.key]);
+        });
+
+        it('should return key if key not exist', function () {
+            $service.setTranslations(en.lang, en.values);
+
+            var value = $service.getTranslation(en.lang, en.notExistKey);
+
+            expect(value).toEqual(en.notExistKey);
+        });
+
+        // set
+        it('should not modify values if called without params', function () {
+            $service.setTranslations();
+
+            var storageValues = $storage.getValues(en.lang);
+            var cacheValues = $cache.getValues(en.lang);
+
+            expect(storageValues).toEqual({});
+            expect(cacheValues).toEqual({});
+
+            $service.setTranslations(en.lang, en.values);
+            $service.setTranslations();
+
+            storageValues = $storage.getValues(en.lang);
+            cacheValues = $cache.getValues(en.lang);
+
+            expect(storageValues).toEqual(en.values);
+            expect(cacheValues).toEqual(en.values);
+        });
+
+        it('should write values both to storage and cache', function () {
+            $service.setTranslations(en.lang, en.values);
+
+            var storageValues = $storage.getValues(en.lang);
+            var cacheValues = $cache.getValues(en.lang);
+
+            expect(storageValues).toEqual(en.values);
+            expect(cacheValues).toEqual(en.values);
+        });
+
+        it('should write merged values both to storage and cache', function () {
+            $service.setTranslations(en.lang, en.values);
+            $service.setTranslations(en.lang, en.moreValues);
+
+            var storageValues = $storage.getValues(en.lang);
+            var cacheValues = $cache.getValues(en.lang);
+
+            expect(storageValues).toEqual(en.mergedValues);
+            expect(cacheValues).toEqual(en.mergedValues);
+        });
+
+        it('should write values only to storage', function () {
+            options.cache.translations = false;
+
+            $service.setTranslations(en.lang, en.values);
+
+            var storageValues = $storage.getValues(en.lang);
+            var cacheValues = $cache.getValues(en.lang);
+
+            expect(storageValues).toEqual(en.values);
+            expect(cacheValues).toEqual({});
+        });
+    });
 
         });
     });
