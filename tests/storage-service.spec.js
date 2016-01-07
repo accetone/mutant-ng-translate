@@ -111,6 +111,13 @@ describe('Translate storage suite >>', function() {
                 expect(lang).toEqual(ru.lang);
                 expect(translations).toEqual({});
             });
+
+            it('should sync options', function() {
+                $service.config(options);
+                options.cache.translations = false;
+
+                expect($service.options.cache.translations).toEqual(false);
+            });
         });
     });
 
