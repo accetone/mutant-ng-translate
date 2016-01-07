@@ -237,7 +237,4 @@ describe('Translate storage suite >>', function() {
             expect(cacheValues).toEqual({});
         });
     });
-
-        });
-    });
 });
