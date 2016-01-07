@@ -60,4 +60,63 @@ describe('Translate storage suite >>', function() {
             expect(typeof $service).toBe('object');
         });
     });
+
+    describe('Config tests >>', function() {
+        it('should init translations and lang with default values if cache not set', function() {
+            $service.config(options);
+
+            var lang = $service.getLang();
+            var translations = $service.getTranslations(lang);
+
+            expect($service.options).toEqual(options);
+            expect(lang).toEqual(options.defaultLang);
+            expect(translations).toEqual({});
+        });
+
+        describe('With cache >>', function () {
+            beforeEach(function() {
+                $cache.setLang(ru.lang);
+                $cache.setValues(ru.lang, ru.values);
+                $cache.setValues(en.lang, en.values);
+            });
+
+            it('should init translations and lang with cached values', function () {
+                $service.config(options);
+
+                var lang = $service.getLang();
+                var translations = $service.getTranslations(lang);
+
+                expect(lang).toEqual(ru.lang);
+                expect(translations).toEqual(ru.values);
+            });
+
+            it('should init lang with default value if cache disabled', function () {
+                options.cache.lang = false;
+                $service.config(options);
+
+                var lang = $service.getLang();
+                var translations = $service.getTranslations(lang);
+
+                expect(lang).toEqual(options.defaultLang);
+                expect(translations).toEqual(en.values);
+            });
+
+            it('should init translations with default value if cache disabled', function () {
+                options.cache.translations = false;
+                $service.config(options);
+
+                var lang = $service.getLang();
+                var translations = $service.getTranslations(lang);
+
+                expect(lang).toEqual(ru.lang);
+                expect(translations).toEqual({});
+            });
+        });
+    });
+
+    describe('Translations get/set tests >>', function() {
+        it('', function() {
+
+        });
+    });
 });
