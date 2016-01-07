@@ -237,4 +237,59 @@ describe('Translate storage suite >>', function() {
             expect(cacheValues).toEqual({});
         });
     });
+
+    describe('Lang get/set tests >>', function () {
+        beforeEach(function () {
+            $service.config(options);
+        });
+
+        it('should return set lang', function () {
+            $service.setLang(en.lang);
+            var lang = $service.getLang();
+
+            expect(lang).toEqual(en.lang);
+        });
+
+        it('should write lang both to options and cache', function () {
+            $service.setLang(en.lang);
+
+            var optionsLang = $service.options.lang;
+            var cachedLang = $cache.getLang();
+
+            expect(optionsLang).toEqual(en.lang);
+            expect(cachedLang).toEqual(en.lang);
+        });
+
+        it('should write lang only to options', function () {
+            options.cache.lang = false;
+
+            $service.setLang(en.lang);
+
+            var optionsLang = $service.options.lang;
+            var cachedLang = $cache.getLang();
+
+            expect(optionsLang).toEqual(en.lang);
+            expect(cachedLang).toEqual(undefined);
+        });
+
+        it('should load translations for passed lang from cache', function () {
+            $cache.setValues(ru.lang, ru.values);
+            $service.setLang(ru.lang);
+
+            var translations = $service.getTranslations(ru.lang);
+
+            expect(translations).toEqual(ru.values);
+        });
+
+        it('should not load translations for passed lang from cache', function () {
+            options.cache.translations = false;
+
+            $cache.setValues(ru.lang, ru.values);
+            $service.setLang(ru.lang);
+
+            var translations = $service.getTranslations(ru.lang);
+
+            expect(translations).toEqual({});
+        });
+    });
 });
