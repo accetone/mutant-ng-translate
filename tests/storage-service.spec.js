@@ -292,4 +292,31 @@ describe('Translate storage suite >>', function() {
             expect(translations).toEqual({});
         });
     });
+
+    describe('Events tests >>', function () {
+        var callback;
+
+        beforeEach(function () {
+            $service.config(options);
+            callback = jasmine.createSpy('callback');
+        });
+
+        it('should generate translations updated event when set them', function () {
+            $events.translationsUpdated.subscribe(callback);
+
+            $service.setTranslations(en.lang, en.values);
+
+            expect(callback.calls.count()).toBe(1);
+            expect(callback.calls.argsFor(0)).toEqual([{ lang: en.lang }]);
+        });
+
+        it('should generate lang chenage event when set it', function () {
+            $events.langChanged.subscribe(callback);
+
+            $service.setLang(ru.lang);
+
+            expect(callback.calls.count()).toBe(1);
+            expect(callback.calls.argsFor(0)).toEqual([{ from: en.lang, to: ru.lang }]);
+        });
+    });
 });
