@@ -1,24 +1,45 @@
 ﻿'use strict';
 
 describe('The translate loader service test suite', function () {
-    var $service, $storage;
+    var $loaderService, $storageService, options;
 
     beforeEach(function () {
         module('mutant-ng-translate');
 
-        inject(function ($translateLoaderSvc, $translateStorage) {
-            $service = $translateLoaderSvc;
-            $storage = $translateStorage;
+        inject(function ($translateLoaderSvc, $translateStorageSvc) {
+            $loaderService = $translateLoaderSvc;
+            $storageService = $translateStorageSvc;
         });
+
+        options = {
+            defaultLang: 'en',
+            urlTemplate: '/locale-{part}-{lang}.json',
+            cache: {
+                translations: true,
+                lang: true
+            },
+            dataTransformation: function (x) {
+                return x;
+            },
+            preload: {
+                enabled: true,
+                langs: [],
+                delay: 0
+            }
+        };
+
+        $storageService.config(options);
+        $loaderService.config(options, $storageService.setTranslations);
     });
 
     describe('>> Common tests', function () {
         it('should be defined', function () {
-            expect($service).toBeDefined();
+            expect($loaderService).toBeDefined();
         });
 
         it('should be an object', function () {
-            expect(typeof $service).toBe('object');
+            expect(typeof $loaderService).toBe('object');
+        });
         });
     });
 
