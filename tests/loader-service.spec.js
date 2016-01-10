@@ -40,6 +40,18 @@ describe('The translate loader service test suite', function () {
         it('should be an object', function () {
             expect(typeof $loaderService).toBe('object');
         });
+    });
+
+    describe('>> Config tests', function () {
+        it('should save options and storage callback', function() {
+            expect($loaderService.options).toEqual(options);
+            expect($loaderService.storageCallback).toEqual($storageService.setTranslations);
+        });
+
+        it('should sync options', function () {
+            options.preload.delay = 2000;
+
+            expect($loaderService.options.preload.delay).toEqual(2000);
         });
     });
 
