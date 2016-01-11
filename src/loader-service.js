@@ -132,7 +132,7 @@
         function checkCounter(lang) {
             if (self.sync.counter[lang] !== self.parts.length) return;
 
-            $translateEvents.allPartsLoaded.publish(lang);
+            $translateEvents.allPartsLoaded.publish({ lang: lang });
         }
 
         function needLoad(part, lang) {
