@@ -144,6 +144,7 @@
         }
 
         function addPart(name) {
+            // TODO: add is string validation 
             var lang = $storage.getLang();
 
             $loader.addPart(name, lang);
