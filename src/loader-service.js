@@ -59,8 +59,6 @@
 
         function addPart(name, lang) {
             // TODO: check if part with this name already added
-            if (!name) return;
-
             var part = { name: name };
             self.parts.push(part);
 
