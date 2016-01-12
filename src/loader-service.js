@@ -96,7 +96,7 @@
 
                     self.storageCallback(lang, values);
 
-                    $translateEvents.partLoaded.publish(partOptions);
+                    $translateEvents.partLoaded.publish({ part: part.name, lang: lang});
                 });
         }
 
