@@ -83,14 +83,14 @@ describe('The translate loader service test suite', function () {
                 expect(status4).toBe(false);
             });
 
-            it('should return undefined if part for lang not loaded yet', function () {
+            it('should return false if part for lang not loaded yet', function () {
                 var status1 = $loaderService.sync.isLoaded({ name: 'first' }, 'en');
 
                 $loaderService.sync.loadingOn({ name: 'first' }, 'en');
                 var status2 = $loaderService.sync.isLoaded({ name: 'first' }, 'en');
 
-                expect(status1).toBeUndefined();
-                expect(status2).toBeUndefined();
+                expect(status1).toBe(false);
+                expect(status2).toBe(false);
             });
 
             it('should corretly return loaded status', function () {

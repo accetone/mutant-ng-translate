@@ -115,7 +115,7 @@
         }
 
         function isLoaded(part, lang) {
-            return self.sync.loaded[lang + '.' + part.name];
+            return !!self.sync.loaded[lang + '.' + part.name];
         }
 
         function increaseCounter(lang) {
