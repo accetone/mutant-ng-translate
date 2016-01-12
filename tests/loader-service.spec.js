@@ -1,15 +1,16 @@
 ﻿'use strict';
 
 describe('The translate loader service test suite', function () {
-    var $loaderService, $storageService, $events, options;
+    var $loaderService, $storageService, $events, $httpBackend, options;
 
     beforeEach(function () {
         module('mutant-ng-translate');
 
-        inject(function ($translateLoaderSvc, $translateStorageSvc, $translateEvents) {
+        inject(function ($translateLoaderSvc, $translateStorageSvc, $translateEvents, _$httpBackend_) {
             $loaderService = $translateLoaderSvc;
             $storageService = $translateStorageSvc;
             $events = $translateEvents;
+            $httpBackend = _$httpBackend_;
         });
 
         options = {
@@ -154,6 +155,163 @@ describe('The translate loader service test suite', function () {
 
                 expect(callback.calls.count()).toBe(1);
                 expect(callback.calls.argsFor(0)).toEqual([{lang: 'en'}]);
+            });
+        });
+    });
+
+    describe('>> Parts tests', function () {
+        afterEach(function () {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        describe('>> Add', function () {
+            it('should add new part and load it', function () {
+                $loaderService.addPart('first', 'en');
+
+                expect($loaderService.parts).toEqual([{ name: 'first' }]);
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+            });
+            
+            it('should not add two parts and load them', function () {
+                $loaderService.addParts(['first', 'second'], 'en');
+
+                expect($loaderService.parts).toEqual([{ name: 'first' }, { name: 'second' }]);
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+                $httpBackend.flush();
+            });
+
+            xit('should not add part with already dublicate name', function () {
+                $loaderService.addPart('first', 'en');
+                $loaderService.addPart('first', 'en');
+
+                expect($loaderService.parts).toEqual([{ name: 'first' }]);
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+            });
+        });
+
+        describe('>> Load', function () {
+            it('should load part for lang and put it to storage', function() {
+                $loaderService.loadPart({ name: 'first' }, 'en');
+
+                $httpBackend
+                    .expect('GET', '/locale-first-en.json')
+                    .respond({ test: 'test' });
+                $httpBackend.flush();
+
+                var translations = $storageService.getTranslations('en');
+
+                expect(translations).toEqual({ test: 'test' });
+            });
+
+            it('should switch loading status correctly', function () {
+                var part = { name: 'first' };
+
+                $loaderService.loadPart(part, 'en');
+                var status1 = $loaderService.sync.isLoading(part, 'en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+                var status2 = $loaderService.sync.isLoading(part, 'en');
+
+                expect(status1).toBe(true);
+                expect(status2).toBe(false);
+            });
+
+            it('should switch loaded status correctly', function () {
+                var part = { name: 'first' };
+
+                $loaderService.loadPart(part, 'en');
+                var status1 = $loaderService.sync.isLoaded(part, 'en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+                var status2 = $loaderService.sync.isLoaded(part, 'en');
+
+                $loaderService.loadPart(part, 'en');
+                var status3 = $loaderService.sync.isLoaded(part, 'en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+
+                expect(status1).toBe(false);
+                expect(status2).toBe(true);
+                expect(status3).toBe(true);
+            });
+
+            it('should increase counter by one for one part loaded', function() {
+                $loaderService.loadPart({ name: 'first' }, 'en');
+                $loaderService.loadPart({ name: 'second' }, 'en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+                $httpBackend.flush();
+
+                expect($loaderService.sync.counter['en']).toBe(2);
+            });
+
+            it('should generate part loaded event', function () {
+                var callback = jasmine.createSpy('callback');
+
+                $events.partLoaded.subscribe(callback);
+
+                $loaderService.loadPart({ name: 'first' }, 'en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+
+                expect(callback.calls.count()).toBe(1);
+                expect(callback.calls.argsFor(0)).toEqual([{ part: 'first', lang: 'en' }]);
+            });
+
+            it('should load all parts', function() {
+                $loaderService.parts.push({ name: 'first' });
+                $loaderService.parts.push({ name: 'second' });
+
+                $loaderService.loadParts('en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+                $httpBackend.flush();
+            });
+
+            it('should load only parts not loaded early', function () {
+                $loaderService.parts.push({ name: 'first' });
+
+                $loaderService.loadParts('en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+
+                $loaderService.parts.push({ name: 'second' });
+
+                $loaderService.loadParts('en');
+
+                $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+                $httpBackend.flush();
+            });
+
+            it('should load all parts if called with force', function() {
+                $loaderService.parts.push({ name: 'first' });
+
+                $loaderService.loadParts('en');
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.flush();
+
+                $loaderService.parts.push({ name: 'second' });
+
+                $loaderService.loadParts('en', true);
+
+                $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+                $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+                $httpBackend.flush();
             });
         });
     });
