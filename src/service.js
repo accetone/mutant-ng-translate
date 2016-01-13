@@ -5,11 +5,11 @@
         .module('mutant-ng-translate')
         .factory('$translate', ['$translateUtils', '$translateStorageSvc', '$translateLoaderSvc', '$translateUtils', translate]);
 
-    function translate($tranlslateUtils, $storage, $loader, $utils) {
+    function translate($translateUtils, $storage, $loader, $utils) {
         var self = this;
 
         self.options = {
-            dataTransformation: $tranlslateUtils.directDataTransformation,
+            dataTransformation: $translateUtils.directDataTransformation,
             cache: {
                 translations: true,
                 lang: true
