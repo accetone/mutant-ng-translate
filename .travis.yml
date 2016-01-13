@@ -1,4 +1,6 @@
 language: node_js
+notifications:
+  on_failure: change
 node_js:
   - 4.1
 before_script:
