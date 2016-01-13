@@ -7,10 +7,10 @@
     "devDependencies": {
         "gulp": "~3.9.0",
         "gulp-concat": "~2.6.0",
-        "gulp-nodemon": "^2.0.4",
+        "gulp-nodemon": "~2.0.4",
         "jasmine-core": "~2.4.1",
-        "karma": "^0.13.16",
-        "karma-chrome-launcher": "^0.2.2",
-        "karma-jasmine": "^0.2.2"
+        "karma": "~0.13.16",
+        "karma-chrome-launcher": "~0.2.2",
+        "karma-jasmine": "~0.2.2"
     }
 }
