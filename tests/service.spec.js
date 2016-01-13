@@ -75,4 +75,137 @@ describe('The translate service test suite', function () {
             expect($storageService.options).toEqual($translate.options);
         });
     });
+
+    describe('>> Options validation tests', function () {
+        it('should throw error if default lang not specified', function () {
+            mergedOptions.defaultLang = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/you didn\'t specify default language/);
+        });
+
+        it('should throw error if default lang not a string', function () {
+            mergedOptions.defaultLang = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for default language/);
+        });
+
+        it('should throw error if url template not specified', function () {
+            mergedOptions.urlTemplate = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/you didn\'t specify url template/);
+        });
+
+        it('should throw error if url template not a string', function () {
+            mergedOptions.urlTemplate = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value url template/);
+        });
+
+        it('should throw error if url template not contain {lang} expression', function () {
+            mergedOptions.urlTemplate = '/get-translations';
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/url template should contain at least {lang} expression/);
+        });
+
+        it('should throw error if data transformation is not a function', function () {
+            mergedOptions.dataTransformation = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for data transformation/);
+
+            mergedOptions.dataTransformation = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for data transformation/);
+        });
+
+        it('should throw error if cache is not an object', function () {
+            mergedOptions.cache = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for cache/);
+
+            mergedOptions.cache = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for cache/);
+        });
+
+        it('should throw error if cache translations is not a boolean', function () {
+            mergedOptions.cache.translations = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for cache translations/);
+
+            mergedOptions.cache.translations = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for cache translations/);
+        });
+
+        it('should throw error if cache lang is not a boolean', function () {
+            mergedOptions.cache.lang = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for cache language/);
+
+            mergedOptions.cache.lang = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for cache language/);
+        });
+
+        it('should throw error if preload is not an object', function () {
+            mergedOptions.preload = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload/);
+
+            mergedOptions.preload = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload/);
+        });
+
+        it('should throw error if preload enabled is not a boolean', function () {
+            mergedOptions.preload.enabled = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload enabled/);
+
+            mergedOptions.preload.enabled = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload enabled/);
+        });
+
+        it('should throw error if preload langs is not an array', function () {
+            mergedOptions.preload.langs = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload langs/);
+
+            mergedOptions.preload.langs = 42;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload langs/);
+        });
+
+        it('should throw error if preload delay is not a number', function () {
+            mergedOptions.preload.delay = undefined;
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload delay/);
+
+            mergedOptions.preload.delay = '42';
+
+            expect(function () { $translate.validateOptions(mergedOptions); })
+                .toThrowError(/incorrect value for preload delay/);
+        });
+    });
 });
