@@ -1,14 +1,14 @@
 ﻿'use strict';
 
 describe('The translate loader test suite', function() {
-    var $translateLoader, $httpBackend, en, options;
+    var $loader, $httpBackend, en, options;
 
     beforeEach(function() {
         module('mutant-ng-translate');
 
-        inject(function (_$translateLoader_, _$httpBackend_) {
+        inject(function ($translateLoader, _$httpBackend_) {
+            $loader = $translateLoader;
             $httpBackend = _$httpBackend_;
-            $translateLoader = _$translateLoader_;
 
             en = {
                 lang: 'en',
@@ -41,19 +41,19 @@ describe('The translate loader test suite', function() {
         });
     });
 
-    describe('Common tests', function () {
+    describe('>> Common tests', function () {
         it('should be defined', function () {
-            expect($translateLoader).toBeDefined();
+            expect($loader).toBeDefined();
         });
 
         it('should be an object', function () {
-            expect(typeof $translateLoader).toBe('object');
+            expect(typeof $loader).toBe('object');
         });
     });
 
-    describe('Load part tests', function () {
+    describe('>> Load part tests', function () {
         it('should return promise', function() {
-            var promise = $translateLoader.loadPart(options);
+            var promise = $loader.loadPart(options);
 
             expect(promise.then).toBeDefined();
             expect(typeof promise.then).toBe('function');
@@ -62,7 +62,7 @@ describe('The translate loader test suite', function() {
         });
 
         it('should return not modified values', function(done) {
-            $translateLoader
+            $loader
                 .loadPart(options)
                 .then(function (values) {
                     expect(values).toEqual(en.values);
@@ -75,7 +75,7 @@ describe('The translate loader test suite', function() {
         it('should process urlTemplate with multiple patterns', function (done) {
             options.urlTemplate = '/locale-{part}-{lang}-{part}-{lang}.json';
 
-            $translateLoader
+            $loader
                 .loadPart(options)
                 .then(function (values) {
                     expect(values).toEqual(en.values);
@@ -96,7 +96,7 @@ describe('The translate loader test suite', function() {
                 return x;
             };
 
-            $translateLoader
+            $loader
                 .loadPart(options)
                 .then(function (values) {
                     expect(values).toEqual(en.transformedValues);

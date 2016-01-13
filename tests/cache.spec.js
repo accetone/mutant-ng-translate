@@ -1,15 +1,15 @@
 ﻿'use strict';
 
 describe('The translate cache test suite', function() {
-    var $translateCache, en, ru;
+    var $cache, en, ru;
 
     beforeEach(function () {
         module('mutant-ng-translate');
 
         window.localStorage.clear();
 
-        inject(function (_$translateCache_) {
-            $translateCache = _$translateCache_;
+        inject(function ($translateCache) {
+            $cache = $translateCache;
         });
 
         en = {
@@ -40,75 +40,75 @@ describe('The translate cache test suite', function() {
         };
     });
 
-    describe('Common tests', function () {
+    describe('>> Common tests', function () {
         it('should be defined', function () {
-            expect($translateCache).toBeDefined();
+            expect($cache).toBeDefined();
         });
 
         it('should be an object', function () {
-            expect(typeof $translateCache).toBe('object');
+            expect(typeof $cache).toBe('object');
         });
     });
 
-    describe('Get/set values tests', function () {
+    describe('>> Get/set values tests', function () {
         it('should return an empty object if called without lang', function () {
-            var values = $translateCache.getValues();
+            var values = $cache.getValues();
 
             expect(values).toEqual({});
         });
 
         it('should return an empty object if called before set', function () {
-            var values = $translateCache.getValues(en.key);
+            var values = $cache.getValues(en.key);
 
             expect(values).toEqual({});
         });
 
         it('should return the values set before', function () {
-            $translateCache.setValues(en.lang, en.values);
-            $translateCache.setValues(ru.lang, ru.values);
+            $cache.setValues(en.lang, en.values);
+            $cache.setValues(ru.lang, ru.values);
 
-            var enValues = $translateCache.getValues(en.lang);
-            var ruValues = $translateCache.getValues(ru.lang);
+            var enValues = $cache.getValues(en.lang);
+            var ruValues = $cache.getValues(ru.lang);
 
             expect(enValues).toEqual(en.values);
             expect(ruValues).toEqual(ru.values);
         });
 
         it('should not change values if called without values', function () {
-            $translateCache.setValues(en.lang, en.values);
-            $translateCache.setValues(en.lang);
-            var values = $translateCache.getValues(en.lang);
+            $cache.setValues(en.lang, en.values);
+            $cache.setValues(en.lang);
+            var values = $cache.getValues(en.lang);
 
             expect(values).toEqual(en.values);
         });
 
         it('should use last value if key already exist', function () {
-            $translateCache.setValues(en.lang, en.values);
-            $translateCache.setValues(en.lang, en.moreValues);
-            var values = $translateCache.getValues(en.lang);
+            $cache.setValues(en.lang, en.values);
+            $cache.setValues(en.lang, en.moreValues);
+            var values = $cache.getValues(en.lang);
 
             expect(values).toEqual(en.mergedValues);
         });
     });
 
-    describe('Get/set lang tests', function() {
+    describe('>> Get/set lang tests', function() {
         it('should return an undefined if called without set', function () {
-            var lang = $translateCache.getLang();
+            var lang = $cache.getLang();
 
             expect(lang).toEqual(undefined);
         });
 
         it('should return the lang set before', function () {
-            $translateCache.setLang(en.lang);
-            var lang = $translateCache.getLang();
+            $cache.setLang(en.lang);
+            var lang = $cache.getLang();
 
             expect(lang).toEqual(en.lang);
         });
 
         it('should return last lang set', function () {
-            $translateCache.setLang(en.lang);
-            $translateCache.setLang(ru.lang);
-            var lang = $translateCache.getLang();
+            $cache.setLang(en.lang);
+            $cache.setLang(ru.lang);
+            var lang = $cache.getLang();
 
             expect(lang).toEqual(ru.lang);
         });
