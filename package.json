@@ -3,7 +3,9 @@
     "name": "mutant-ng-translate",
     "description": "i18n for angular",
     "version": "0.0.0",
-    "scripts": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+    "scripts": {
+        "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+    },
     "devDependencies": {
         "gulp": "~3.9.0",
         "gulp-concat": "~2.6.0",
