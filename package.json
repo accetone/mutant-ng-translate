@@ -4,7 +4,7 @@
     "description": "i18n for angular",
     "version": "0.0.0",
     "scripts": {
-        "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+        "test": "./node_modules/.bin/karma start --browsers Firefox --single-run"
     },
     "devDependencies": {
         "gulp": "~3.9.0",
