@@ -39,7 +39,7 @@
         
         /* INITIALIZATION */
         function config(options) {
-            angular.extend(self.options, options);
+            angular.merge(self.options, options);
             self.validateOptions(self.options);
 
             $storage.config(self.options);

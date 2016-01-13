@@ -70,7 +70,7 @@
             var lsKey = self.local.prefix + lang;
             var cacheValues = self.cache.getValues(lang);
 
-            angular.extend(cacheValues, values);
+            angular.merge(cacheValues, values);
 
             self.local.put(lsKey, cacheValues);
         }

@@ -39,7 +39,7 @@
                 self.langs[lang] = {};
             }
 
-            angular.extend(self.langs[lang], values);
+            angular.merge(self.langs[lang], values);
         }
 
         function exists(lang, key) {
