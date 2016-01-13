@@ -1,16 +1,17 @@
 ﻿'use strict';
 
 describe('The translate loader service test suite', function () {
-    var $loaderService, $storageService, $events, $httpBackend, options;
+    var $loaderService, $storageService, $events, $httpBackend, $timeout, options;
 
     beforeEach(function () {
         module('mutant-ng-translate');
 
-        inject(function ($translateLoaderSvc, $translateStorageSvc, $translateEvents, _$httpBackend_) {
+        inject(function ($translateLoaderSvc, $translateStorageSvc, $translateEvents, _$httpBackend_, _$timeout_) {
             $loaderService = $translateLoaderSvc;
             $storageService = $translateStorageSvc;
             $events = $translateEvents;
             $httpBackend = _$httpBackend_;
+            $timeout = _$timeout_;
         });
 
         options = {
@@ -25,7 +26,7 @@ describe('The translate loader service test suite', function () {
             },
             preload: {
                 enabled: true,
-                langs: [],
+                langs: ['en', 'ru'],
                 delay: 0
             }
         };
@@ -313,6 +314,35 @@ describe('The translate loader service test suite', function () {
                 $httpBackend.expect('GET', '/locale-second-en.json').respond({});
                 $httpBackend.flush();
             });
+        });
+    });
+
+    describe('>> Preload tests', function () {
+        afterEach(function () {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+            $timeout.verifyNoPendingTasks();
+        });
+
+        it('should start preload', function () {
+            $loaderService.options.preload.enabled = true;
+            $loaderService.parts.push({ name: 'first' });
+
+            $events.allPartsLoaded.publish();
+            
+            $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+            $httpBackend.expect('GET', '/locale-first-ru.json').respond({});
+
+            $timeout.flush();
+            $httpBackend.flush();
+            $timeout.flush();
+        });
+
+        it('should not start preload', function () {
+            $loaderService.options.preload.enabled = false;
+            $loaderService.parts.push({ name: 'first' });
+
+            $events.allPartsLoaded.publish();
         });
     });
 });
