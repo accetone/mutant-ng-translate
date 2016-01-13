@@ -45,9 +45,7 @@
             self.options = options;
             self.storageCallback = storageCallback;
 
-            if (self.options.preload.enabled) {
-                $translateEvents.allPartsLoaded.subscribe(self.preload, true);
-            }
+            $translateEvents.allPartsLoaded.subscribe(self.preload, true);
         }
 
         /* PARTS */
@@ -139,7 +137,7 @@
 
         /* PRELOAD */
         function preload() {
-            if (!self.options.preload.langs) return;
+            if (!self.options.preload.enabled || !self.options.preload.langs) return;
 
             $timeout(function () {
                 for (var i = 0; i < self.options.preload.langs.length; i++) {
