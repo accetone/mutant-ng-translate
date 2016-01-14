@@ -186,7 +186,7 @@ describe('The translate loader service test suite', function () {
                 $httpBackend.flush();
             });
 
-            xit('should not add part with already dublicate name', function () {
+            it('should not add part with duplicate name', function () {
                 $loaderService.addPart('first', 'en');
                 $loaderService.addPart('first', 'en');
 
