@@ -56,12 +56,18 @@
         }
 
         function addPart(name, lang) {
-            // TODO: check if part with this name already added
             if (typeof name !== 'string') {
                 $translateUtils.error.throw('incorrect value for part name');
             }
 
             var part = { name: name };
+            
+            for (var i = 0; i < self.parts.length; i++) {
+                if (self.parts[i].name === part.name) return;
+            }
+
+            if (self.parts.indexOf(part) !== -1) return;
+
             self.parts.push(part);
 
             self.loadPart(part, lang);
