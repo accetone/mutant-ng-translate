@@ -107,6 +107,10 @@
 
         /* LANGS */
         function use(lang) {
+            if (typeof lang !== 'string') {
+                $utils.error.throw('incorrect value for lang to use');
+            }
+
             if ($storage.getLang() === lang) return;
 
             $storage.setLang(lang);
