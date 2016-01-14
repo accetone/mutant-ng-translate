@@ -3,9 +3,9 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateLoaderSvc', ['$timeout', '$translateLoader', '$translateEvents', translateLoaderSvc]);
+        .factory('$translateLoaderSvc', ['$timeout', '$translateLoader', '$translateEvents', '$translateUtils', translateLoaderSvc]);
 
-    function translateLoaderSvc($timeout, $translateLoader, $translateEvents) {
+    function translateLoaderSvc($timeout, $translateLoader, $translateEvents, $translateUtils) {
         var self = this;
 
         self.config = config;
@@ -57,6 +57,10 @@
 
         function addPart(name, lang) {
             // TODO: check if part with this name already added
+            if (typeof name !== 'string') {
+                $translateUtils.error.throw('incorrect value for part name');
+            }
+
             var part = { name: name };
             self.parts.push(part);
 
