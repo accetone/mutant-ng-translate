@@ -186,6 +186,12 @@ describe('The translate loader service test suite', function () {
                 $httpBackend.flush();
             });
 
+            it('should throw error if part name not a string', function() {
+                expect(function() {
+                    $loaderService.addPart(42);
+                }).toThrowError(/incorrect value for part name/);
+            });
+
             it('should not add part with duplicate name', function () {
                 $loaderService.addPart('first', 'en');
                 $loaderService.addPart('first', 'en');
