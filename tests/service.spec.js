@@ -323,4 +323,57 @@ describe('The translate service test suite', function () {
             expect(translation).toEqual(en.notExistKey);
         });
     });
+
+    describe('>> Parts tests', function () {
+        beforeEach(function () {
+            options.preload.enabled = false;
+            $translate.config(options);
+        });
+
+        it('should add part to loader service', function() {
+            $translate.addPart('first');
+
+            expect($loaderService.parts).toEqual([{ name: 'first' }]);
+        });
+
+        it('should add parts to loader service', function () {
+            $translate.addParts('first', 'second');
+
+            expect($loaderService.parts).toEqual([{ name: 'first' }, { name: 'second' }]);
+        });
+
+        it('should load only not loaded parts', function() {
+            $translate.addPart('first');
+            $loaderService.parts.push({ name: 'second' });
+            
+            $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+            $httpBackend.flush();
+
+            $translate.refresh();
+
+            $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+            $httpBackend.flush();
+
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should load all parts including already loaded', function() {
+            $translate.addPart('first');
+            $translate.addPart('second');
+
+            $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+            $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+            $httpBackend.flush();
+
+            $translate.refresh(true);
+
+            $httpBackend.expect('GET', '/locale-first-en.json').respond({});
+            $httpBackend.expect('GET', '/locale-second-en.json').respond({});
+            $httpBackend.flush();
+
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+    });
 });
