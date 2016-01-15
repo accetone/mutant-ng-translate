@@ -272,4 +272,55 @@ describe('The translate service test suite', function () {
             $httpBackend.verifyNoOutstandingRequest();
         });
     });
+
+    describe('>> Translations tests', function () {
+        beforeEach(function() {
+            $translate.config(options);
+            $storageService.setTranslations(en.lang, en.values);
+        });
+
+        it('should return translations for current lang if called without params', function() {
+            var translations = $translate.translations();
+
+            expect(translations).toEqual(en.values);
+        });
+
+        it('should return translations for specified lang', function () {
+            var translations = $translate.translations('en');
+
+            expect(translations).toEqual(en.values);
+        });
+
+        it('should return empty object if no translations for specified lang', function() {
+            var translations = $translate.translations('ru');
+
+            expect(translations).toEqual({});
+        });
+
+        it('should merge translations if called with two params', function () {
+            $translate.translations(en.lang, en.moreValues);
+
+            var translations = $translate.translations();
+
+            expect(translations).toEqual(en.mergedValues);
+        });
+
+        it('should return undefined if called without params', function() {
+            var translation = $translate.translation();
+
+            expect(translation).toBeUndefined();
+        });
+
+        it('should return translation for existing key', function() {
+            var translation = $translate.translation(en.key);
+
+            expect(translation).toEqual(en.values[en.key]);
+        });
+
+        it('should return key for not existing key', function () {
+            var translation = $translate.translation(en.notExistKey);
+
+            expect(translation).toEqual(en.notExistKey);
+        });
+    });
 });
