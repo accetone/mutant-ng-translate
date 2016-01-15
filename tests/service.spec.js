@@ -1,18 +1,19 @@
 ﻿'use strict';
 
 describe('The translate service test suite', function () {
-    var $translate, $storageService, $loaderService, $utils, options, mergedOptions;
+    var $translate, $storageService, $loaderService, $utils, $httpBackend, options, mergedOptions, en;
 
     beforeEach(function () {
         module('mutant-ng-translate');
 
         window.localStorage.clear();
 
-        inject(function (_$translate_, $translateStorageSvc, $translateLoaderSvc, $translateUtils) {
+        inject(function (_$translate_, $translateStorageSvc, $translateLoaderSvc, $translateUtils, _$httpBackend_) {
             $translate = _$translate_;
             $storageService = $translateStorageSvc;
             $loaderService = $translateLoaderSvc;
             $utils = $translateUtils;
+            $httpBackend = _$httpBackend_;
         });
 
         options = {
@@ -23,6 +24,25 @@ describe('The translate service test suite', function () {
                 delay: 0
             },
             urlTemplate: '/locale-{part}-{lang}.json'
+        };
+
+        en = {
+            lang: 'en',
+            values: {
+                'apple': 'Hello, Apple!',
+                'pear': 'Hello, Pear!'
+            },
+            moreValues: {
+                'apple': 'Hello, Apple 2!',
+                'peach': 'Hello, Peach!'
+            },
+            mergedValues: {
+                'apple': 'Hello, Apple 2!',
+                'pear': 'Hello, Pear!',
+                'peach': 'Hello, Peach!'
+            },
+            key: 'apple',
+            notExistKey: 'lime'
         };
 
         mergedOptions = {
