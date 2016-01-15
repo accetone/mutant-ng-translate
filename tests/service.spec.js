@@ -228,4 +228,48 @@ describe('The translate service test suite', function () {
                 .toThrowError(/incorrect value for preload delay/);
         });
     });
+
+    describe('>> Langs tests', function () {
+        beforeEach(function() {
+            $translate.config(options);
+            $loaderService.parts.push({ name: 'first' });
+            $loaderService.parts.push({ name: 'second' });
+        });
+
+        it('should return default lang', function() {
+            expect($translate.current()).toBe('en');
+        });
+
+        it('should throw error if lang not a string', function () {
+            expect(function() { $translate.use(); })
+                .toThrowError(/incorrect value for lang to use/);
+
+            expect(function () { $translate.use(42); })
+                .toThrowError(/incorrect value for lang to use/);
+        });
+
+        it('should change lang', function() {
+            $translate.use('ru');
+
+            expect($translate.current()).toBe('ru');
+        });
+
+        it('should load parts if called with lang that not equal to current', function() {
+            $translate.use('ru');
+
+            $httpBackend.expect('GET', '/locale-first-ru.json').respond({});
+            $httpBackend.expect('GET', '/locale-second-ru.json').respond({});
+            $httpBackend.flush();
+
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should not load parts if called with lang that equal to current', function () {
+            $translate.use('en');
+
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+    });
 });
