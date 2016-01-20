@@ -76,12 +76,16 @@
         }
 
         function getLangFromCache() {
+            if (!self.local.isSupported) return undefined;
+
             var lsKey = self.local.prefix + 'lang';
 
             return self.local.get(lsKey);
         }
 
         function setLangToCache(lang) {
+            if (!self.local.isSupported) return;
+
             var lsKey = self.local.prefix + 'lang';
 
             self.local.put(lsKey, lang);
