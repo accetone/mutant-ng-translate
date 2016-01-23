@@ -66,5 +66,24 @@ describe('The translate events test suite', function() {
 
             expect(callback.calls.count()).toBe(1);
         });
+
+        it('should remove correct subscriber from list', function() {
+            var callback2 = jasmine.createSpy('callback2');
+            var callback3 = jasmine.createSpy('callback3');
+
+            var token1 = $events.partLoaded.subscribe(callback);
+            var token2 = $events.partLoaded.subscribe(callback2);
+            var token3 = $events.partLoaded.subscribe(callback3);
+
+            token2.unsubscribe();
+            $events.partLoaded.publish();
+
+            token1.unsubscribe();
+            $events.partLoaded.publish();
+
+            expect(callback.calls.count()).toBe(1);
+            expect(callback2.calls.count()).toBe(0);
+            expect(callback3.calls.count()).toBe(2);
+        });
     });
 });
