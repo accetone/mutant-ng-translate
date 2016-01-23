@@ -47,6 +47,7 @@ describe('The translate service test suite', function () {
 
         mergedOptions = {
             dataTransformation: $utils.directDataTransformation,
+            keyResolver: $utils.directKeyResolver,
             cache: {
                 translations: true,
                 lang: true

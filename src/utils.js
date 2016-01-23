@@ -12,6 +12,9 @@
             return values;
         };
 
+        self.directKeyResolver = function (key) {
+            return key;
+        };
         self.error = {
             prefix: '[mutant-ng-translate]: ',
             throw: function (message) {

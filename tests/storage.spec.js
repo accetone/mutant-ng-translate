@@ -1,13 +1,14 @@
 ﻿'use strict';
 
 describe('The translate storage test suite', function () {
-    var $storage, en, ru;
+    var $storage, $utils, en, ru;
 
     beforeEach(function () {
         module('mutant-ng-translate');
 
-        inject(function ($translateStorage) {
+        inject(function ($translateStorage, $translateUtils) {
             $storage = $translateStorage;
+            $utils = $translateUtils;
         });
 
         en = {
@@ -134,14 +135,20 @@ describe('The translate storage test suite', function () {
         });
 
         it('should return key if don\'t have this key', function () {
-            var value = $storage.getValue(en.lang, en.key);
+            var value = $storage.getValue(en.lang, en.key, $utils.directKeyResolver);
 
             expect(value).toEqual(en.key);
         });
 
+        it('should return empty string if don\'t have this key', function() {
+            var value = $storage.getValue(en.lang, en.key, function() { return ''; });
+
+            expect(value).toEqual('');
+        });
+
         it('should return value by key', function () {
             $storage.setValues(en.lang, en.values);
-            var value = $storage.getValue(en.lang, en.key);
+            var value = $storage.getValue(en.lang, en.key, $utils.directKeyResolver);
 
             expect(value).toEqual(en.values[en.key]);
         });

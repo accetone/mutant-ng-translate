@@ -26,9 +26,13 @@
             return self.langs[lang];
         }
 
-        function getValue(lang, key) {
+        function getValue(lang, key, resolver) {
             if (!self.exists(lang, key)) {
-                return key;
+                if (typeof resolver === 'function') {
+                    return resolver(key);
+                } else {
+                    return key;
+                }
             }
 
             return self.langs[lang][key];

@@ -136,7 +136,7 @@
         }
 
         function storageGetTranslation(lang, key) {
-            return $translateStorage.getValue(lang, key);
+            return $translateStorage.getValue(lang, key, self.options.keyResolver);
         }
 
         function storageSetTranslations(lang, values) {

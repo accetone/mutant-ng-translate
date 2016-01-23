@@ -9,6 +9,7 @@
 
         self.options = {
             dataTransformation: $utils.directDataTransformation,
+            keyResolver: $utils.directKeyResolver,
             cache: {
                 translations: true,
                 lang: true
