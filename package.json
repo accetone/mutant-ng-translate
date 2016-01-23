@@ -14,8 +14,10 @@
     "devDependencies": {
         "gulp": "~3.9.0",
         "gulp-concat": "~2.6.0",
+        "gulp-minify": "0.0.5",
         "gulp-ngdocs": "~0.2.13",
         "gulp-nodemon": "~2.0.4",
+        "gulp-sourcemaps": "^1.6.0",
         "jasmine-core": "~2.4.1",
         "karma": "~0.13.16",
         "karma-chrome-launcher": "~0.2.2",
