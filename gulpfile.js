@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='watch, server, tests' />
+/// <binding ProjectOpened='watch, server, tdd' />
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
@@ -27,9 +27,16 @@ gulp.task('server', function() {
     });
 });
 
-gulp.task('tests', function (done) {
+gulp.task('tdd', function (done) {
     new karmaServer({
         configFile: __dirname + '/karma.conf.js'
+    }, done).start();
+});
+
+gulp.task('tests', function (done) {
+    new karmaServer({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
     }, done).start();
 });
 
