@@ -1,6 +1,8 @@
 /// <binding ProjectOpened='watch, server, tests' />
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var minify = require('gulp-minify');
+var sourcemaps = require('gulp-sourcemaps');
 var nodemon = require('gulp-nodemon');
 var karmaServer = require('karma').Server;
 var docs = require('gulp-ngdocs');
@@ -8,7 +10,10 @@ var docs = require('gulp-ngdocs');
 gulp.task('build', function () {
     return gulp
         .src(['./src/translate.js', './src/**/*.js'])
+        .pipe(sourcemaps.init())
         .pipe(concat('mutant-ng-translate.js'))
+        .pipe(minify())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./build/'));
 });
 
