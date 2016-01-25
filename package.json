@@ -2,7 +2,7 @@
     "author": "Nikita Tsyhanenko",
     "name": "mutant-ng-translate",
     "description": "i18n for angular",
-    "version": "0.0.0",
+    "version": "1.0.3",
     "repository": {
         "type": "git",
         "url": "https://github.com/accetone/mutant-ng-translate"
@@ -17,7 +17,7 @@
         "gulp-minify": "0.0.5",
         "gulp-ngdocs": "~0.2.13",
         "gulp-nodemon": "~2.0.4",
-        "gulp-sourcemaps": "^1.6.0",
+        "gulp-sourcemaps": "~1.6.0",
         "jasmine-core": "~2.4.1",
         "karma": "~0.13.16",
         "karma-chrome-launcher": "~0.2.2",
