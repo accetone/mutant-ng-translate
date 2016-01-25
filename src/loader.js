@@ -5,6 +5,15 @@
         .module('mutant-ng-translate')
         .factory('$translateLoader', ['$http', '$q', translateLoader]);
 
+    /**
+     * @ngdoc service
+     * @name translate.loader
+     * @requires $http
+     * @requires $q
+     * 
+     * @description 
+     * Service responsible for loading parts
+     */
     function translateLoader($http, $q) {
         var self = this;
 
@@ -12,6 +21,20 @@
 
         return self;
 
+        /**
+         * @ngdoc method
+         * @methodOf translate.loader
+         * @name loadPart
+         * 
+         * @param {Object} options Options
+         * @returns {Promise} Loading Promise
+         * 
+         * @description 
+         * Start part loading with given options and return promise.
+         * Promise will be resolved after loading complete.
+         * Transform received from server data with data transformation function.
+         * Transformed data will be passed with promise resolve.
+         */
         function loadPart(options) {
             var url = options
                 .urlTemplate
