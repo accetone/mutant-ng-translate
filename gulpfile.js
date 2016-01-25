@@ -50,7 +50,10 @@ gulp.task('docs', function () {
             'bower_components/marked/marked.min.js',
             'bower_components/marked/marked.js.map'
         ],
-        html5Mode: false
+        html5Mode: false,
+        startPage: '/api/translate',
+        title: 'mutant-ng-translate',
+        titleLink: '/docs/#/api/translate'
     };
 
     return gulp.src(['./src/**/*.js', ''])
