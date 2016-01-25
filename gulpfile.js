@@ -62,6 +62,18 @@ gulp.task('docs', function () {
         .pipe(gulp.dest('./docs'));
 });
 
+gulp.task('dist', ['build'], function() {
+    return gulp
+        .src(['./build/*.*'])
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('deploy', ['build'], function() {
+    return gulp
+        .src(['./build/*.*', 'bower.json', 'package.json', 'README.md', 'LICENSE'])
+        .pipe(gulp.dest('./deploy'));
+});
+
 function swallowError(error) {
     console.log(error.toString());
 
