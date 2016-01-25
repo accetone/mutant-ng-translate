@@ -4,6 +4,17 @@
     angular
         .module('mutant-ng-translate')
         .factory('$translate', ['$translateStorageSvc', '$translateLoaderSvc', '$translateUtils', translate]);
+
+    /**
+     * @ngdoc service
+     * @name translate.$translate
+     * @requires translate.storageService
+     * @requires translate.loaderService
+     * @requires translate.utils
+     * 
+     * @description 
+     * Service responsible for comunication with external code and manage other parts to work mutually
+     */
     function translate($storage, $loader, $utils) {
         var self = this;
 
@@ -38,6 +49,17 @@
         return self;
         
         /* INITIALIZATION */
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name config
+         * 
+         * @param {Object} options Options
+         * 
+         * @description 
+         * Merge external options with default library options. 
+         * Initialize {@link translate.storageService storageService} and {@link translate.loaderService loaderService}
+         */
         function config(options) {
             angular.merge(self.options, options);
             self.validateOptions(self.options);
@@ -46,6 +68,16 @@
             $loader.config(self.options, $storage.setTranslations);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name validateOptions
+         * 
+         * @param {Object} options Options
+         * 
+         * @description 
+         * Throw error if options are corrupt
+         */
         function validateOptions(options) {
             // default lang
             if (!options.defaultLang) {
@@ -106,6 +138,17 @@
         }
 
         /* LANGS */
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name use
+         * 
+         * @param {string} lang Language
+         * 
+         * @description 
+         * Set current language to given and start loading parts for it.
+         * Do nothing if passed language equal to current
+         */
         function use(lang) {
             if (typeof lang !== 'string') {
                 $utils.error.throw('incorrect value for lang to use');
@@ -117,11 +160,57 @@
             $loader.loadParts(lang, false);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name currentLang
+         * 
+         * @returns {string} Language 
+         * 
+         * @description 
+         * Return current language
+         */
         function currentLang() {
             return $storage.getLang();
         }
 
         /* TRANSLATIONS */
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name translations
+         * 
+         * @returns {Object<string, string>} Translations Hashmap 
+         * 
+         * @description 
+         * Return translation hashmap for current language
+         */
+
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name translations
+         * 
+         * @param {string} lang Language
+         * @returns {Object<string, string>} Translations Hashmap 
+         * 
+         * @description 
+         * Return translation hashmap for given language
+         */
+
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name translations
+         * 
+         * @param {string} lang Language
+         * @param {Object<string, string>} values Translations Hashmap
+         * @returns {Object<string, string>} Updated Translations Hashmap 
+         * 
+         * @description 
+         * Put given translations hashmap to storage service for given language.
+         * After that return updated translations hashmap for given language
+         */
         function translations(lang, values) {
             if (!lang) {
                 lang = $storage.getLang();
@@ -134,6 +223,17 @@
             return $storage.getTranslations(lang);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name translation
+         * 
+         * @param {string} key Translation Key
+         * @returns {string} Translation
+         * 
+         * @description 
+         * Return translation for current language and given translation key
+         */
         function translation(key) {
             var lang = $storage.getLang();
 
@@ -141,18 +241,53 @@
         } 
 
         /* PARTS */
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name addParts
+         * 
+         * @param {string} name1 Part Name 1
+         * @param {string} [name2] Part Name 2
+         * @param {string} [...] ...
+         * 
+         * @description 
+         * Add parts for current language.
+         * Loading will start automatically.
+         * Pass part names as separate params
+         */
         function addParts() {
             var lang = $storage.getLang();
 
             $loader.addParts(arguments, lang);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name addPart
+         * 
+         * @param {string} name Part Name
+         * 
+         * @description 
+         * Add part for current language.
+         * Loading will start automatically
+         */
         function addPart(name) {
             var lang = $storage.getLang();
 
             $loader.addPart(name, lang);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf translate.$translate
+         * @name refresh
+         * 
+         * @param {boolean} force Force
+         * 
+         * @description 
+         * Call force reload of all added parts for current language
+         */
         function refresh(force) {
             var lang = $storage.getLang();
 
