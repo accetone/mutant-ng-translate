@@ -11,7 +11,8 @@
      * 
      * Internationalization library for Angular applications.  
      * 
-     * For quick start look to official {@link https://github.com/accetone/mutant-ng-translate readme file}.
+     * For quick start look to official {@link https://github.com/accetone/mutant-ng-translate readme file}.  
+     * Also you can find simple demo {@link http://accetone.github.io/mutant-ng-translate-docs/demo/ here}.  
      * 
      * **Our key features**
      * - native parts mechanism: load your locale files using complex url templates like `/locale-{part}-{lang}.json`  
