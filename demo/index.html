@@ -1,23 +1,124 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Demo</title>
+    <title>Demo: mutant-ng-translate</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+
+            width: 100%;
+            height: 100%;
+
+            background: #424242;
+            color: white;
+        }
+
+        .header {
+            width: 100%;
+            height: 64px;
+            line-height: 60px;
+            background: #F44336;
+
+            padding: 0 16px;
+
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .header .title {
+            display: inline-block;
+
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+
+            padding: 0 16px;
+        }
+
+        .header .nav {
+            display: inline-block;
+        }
+
+        .header .nav .nav-item {
+            display: inline-block;
+            margin-right: 8px;
+
+            text-decoration: none;
+            color: white;
+        }
+
+        .header .nav .nav-item:hover {
+            color: #B71C1C;
+        }
+
+        .content {
+            padding: 32px 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            min-width: 130px;
+            text-align: center;
+            padding: 8px 16px;
+            margin-top: 16px;
+            margin-right: 8px;
+            background: #FFC107;
+            cursor: pointer;
+            text-transform: uppercase;
+            color: #212121;
+        }
+
+        .btn:hover {
+            background: #FFB300;
+        }
+    </style>
 </head>
 <body ng-app="MyApp" ng-controller="MyCtrl">
+    <div class="header">
+        <div class="title">
+            MUTANT-NG-TRANSLATE
+        </div>
 
-    <h3>Simple usage of mutant-ng-translate</h3>
+        <div class="nav">
+            <a href="http://accetone.github.io/mutant-ng-translate-docs/" class="nav-item">
+                Docs
+            </a>
 
-    {{ "HELLO-WORLD" | translate }}<br/>
-    {{ "HELLO-FOO" | translate }}<br/>
-    <div ng-translate="HELLO-ALICE"></div>
+            <a href="https://github.com/accetone/mutant-ng-translate" class="nav-item">
+                Repo
+            </a>
 
-    <input type="button" ng-click="switchLang()" value="switch lang"/>
+            <a href="https://github.com/accetone/mutant-ng-translate/tree/master/demo" class="nav-item">
+                Demo Sources
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        {{ "HELLO-WORLD" | translate }}<br />
+        {{ "HELLO-FOO" | translate }}<br />
+        <div ng-translate="HELLO-ALICE"></div>
+
+
+        <div class="btn" ng-click="switchLang()">
+            Switch Language
+        </div>
+
+        <div class="btn" ng-click="clearCache()">
+            Clear Cache
+        </div>
+    </div>
 
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../build/mutant-ng-translate.js"></script>
 
     <script>
-        (function() {
+        (function () {
             angular.module('MyApp', ['mutant-ng-translate'])
                 .config(['$translateProvider', function ($translateProvider) {
                     var $translate = $translateProvider.$get();
@@ -36,16 +137,18 @@
                 }])
                 .controller('MyCtrl', [
                     '$scope', '$translate', function ($scope, $translate) {
-                        
-
                         $scope.switchLang = function () {
                             if ($translate.current() === 'en') $translate.use('ru');
                             else $translate.use('en');
+                        };
+
+                        $scope.clearCache = function() {
+                            window.localStorage.clear();
                         };
                     }
                 ]);
         })();
     </script>
-
 </body>
+
 </html>
