@@ -34,7 +34,7 @@ bower install mutant-ng-translate
 ##### 02 Embeding
 Embed script to your HTML document:
 
-```
+```html
 <script src="path/to/mutant-ng-translate.js"></script>
 ```
 
