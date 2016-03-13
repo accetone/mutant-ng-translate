@@ -46,6 +46,8 @@
      *      defaultLang: 'en',
      *      urlTemplate: '/locale/{lang}.json'
      * });
+     * 
+     * $translate.addPart('');
      * ```
      * 
      * **Complex JSON file**
