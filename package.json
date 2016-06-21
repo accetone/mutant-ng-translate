@@ -1,27 +1,27 @@
 {
-    "author": "Nikita Tsyhanenko",
-    "name": "mutant-ng-translate",
-    "description": "i18n for angular",
-    "version": "1.0.3",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/accetone/mutant-ng-translate"
-    },
-    "license": "MIT",
-    "scripts": {
-        "test": "./node_modules/.bin/karma start --browsers Firefox --single-run"
-    },
-    "devDependencies": {
-        "gulp": "~3.9.0",
-        "gulp-concat": "~2.6.0",
-        "gulp-minify": "0.0.5",
-        "gulp-ngdocs": "~0.2.13",
-        "gulp-nodemon": "~2.0.4",
-        "gulp-sourcemaps": "~1.6.0",
-        "jasmine-core": "~2.4.1",
-        "karma": "~0.13.16",
-        "karma-chrome-launcher": "~0.2.2",
-        "karma-firefox-launcher": "~0.1",
-        "karma-jasmine": "~0.2.2"
-    }
+  "author": "Nikita Tsyhanenko",
+  "name": "mutant-ng-translate",
+  "description": "i18n for angular",
+  "version": "1.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/accetone/mutant-ng-translate"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/karma start --browsers Firefox --single-run"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify": "^0.0.12",
+    "gulp-ngdocs": "^0.2.13",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.16",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-jasmine": "^1.0.2"
+  }
 }
