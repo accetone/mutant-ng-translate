@@ -26,7 +26,7 @@
                 lang: true
             },
             preload: {
-                enabled: false,
+                enabled: true,
                 langs: [],
                 delay: 0
             }
