@@ -3,7 +3,7 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateEvents', ['$translateUtils', tranlslateEvents]);
+        .factory('$translateEvents', ['$translateUtils', translateEvents]);
 
     /**
      * @ngdoc service
@@ -19,16 +19,16 @@
      * var callback = function (data) { console.log(data); }
      * 
      * // how subscribe ?
-     * var token = $tranlslateEvents.langChanged.subscribe(callback);
+     * var token = $translateEvents.langChanged.subscribe(callback);
      * 
      * // how unsibscribe ?
      * token.unsibscribe();
      * 
      * // how to register one-time callback ?
-     * var token2 = $tranlslateEvents.langChanged.subscribe(callback, true);
+     * var token2 = $translateEvents.langChanged.subscribe(callback, true);
      * ```
      */
-    function tranlslateEvents($utils) {
+    function translateEvents($utils) {
         var self = this;
 
         /**
