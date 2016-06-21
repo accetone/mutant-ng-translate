@@ -11,7 +11,8 @@
      * 
      * Internationalization library for Angular applications.  
      * 
-     * For quick start look to official {@link https://github.com/accetone/mutant-ng-translate readme file}.
+     * For quick start look to official {@link https://github.com/accetone/mutant-ng-translate readme file}.  
+     * Also you can find simple demo {@link http://accetone.github.io/mutant-ng-translate-docs/demo/ here}.  
      * 
      * **Our key features**
      * - native parts mechanism: load your locale files using complex url templates like `/locale-{part}-{lang}.json`  
@@ -45,6 +46,8 @@
      *      defaultLang: 'en',
      *      urlTemplate: '/locale/{lang}.json'
      * });
+     * 
+     * $translate.addPart('');
      * ```
      * 
      * **Complex JSON file**
@@ -375,7 +378,7 @@
 
     angular
         .module('mutant-ng-translate')
-        .factory('$translateEvents', ['$translateUtils', tranlslateEvents]);
+        .factory('$translateEvents', ['$translateUtils', translateEvents]);
 
     /**
      * @ngdoc service
@@ -391,16 +394,16 @@
      * var callback = function (data) { console.log(data); }
      * 
      * // how subscribe ?
-     * var token = $tranlslateEvents.langChanged.subscribe(callback);
+     * var token = $translateEvents.langChanged.subscribe(callback);
      * 
      * // how unsibscribe ?
      * token.unsibscribe();
      * 
      * // how to register one-time callback ?
-     * var token2 = $tranlslateEvents.langChanged.subscribe(callback, true);
+     * var token2 = $translateEvents.langChanged.subscribe(callback, true);
      * ```
      */
-    function tranlslateEvents($utils) {
+    function translateEvents($utils) {
         var self = this;
 
         /**
@@ -1023,7 +1026,7 @@
         self.validateOptions = validateOptions;
      
         self.use = use;
-        self.current = currentLang;
+        self.current = current;
 
         self.translations = translations;
         self.translation = translation;
@@ -1150,14 +1153,14 @@
         /**
          * @ngdoc method
          * @methodOf translate.$translate
-         * @name currentLang
+         * @name current
          * 
          * @returns {string} Language 
          * 
          * @description 
          * Return current language
          */
-        function currentLang() {
+        function current() {
             return $storage.getLang();
         }
 
@@ -1280,7 +1283,7 @@
 
             $loader.loadParts(lang, force);
         }
-    };
+    }
 })();
 (function() {
     'use strict';
