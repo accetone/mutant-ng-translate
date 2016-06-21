@@ -3,4 +3,5 @@
 /build
 /docs
 /deploy
-dev.ps1
+/.idea
+/.vs
