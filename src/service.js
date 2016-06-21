@@ -36,7 +36,7 @@
         self.validateOptions = validateOptions;
      
         self.use = use;
-        self.current = currentLang;
+        self.current = current;
 
         self.translations = translations;
         self.translation = translation;
@@ -163,14 +163,14 @@
         /**
          * @ngdoc method
          * @methodOf translate.$translate
-         * @name currentLang
+         * @name current
          * 
          * @returns {string} Language 
          * 
          * @description 
          * Return current language
          */
-        function currentLang() {
+        function current() {
             return $storage.getLang();
         }
 
@@ -293,5 +293,5 @@
 
             $loader.loadParts(lang, force);
         }
-    };
+    }
 })();
