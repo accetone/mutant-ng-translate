@@ -80,7 +80,7 @@
         self.langChanged = new event($utils);
 
         return self;
-    };
+    }
 
     /**
      * @ngdoc object
@@ -95,6 +95,7 @@
        
         self.subscribers = [];
         self.subscribe = subscribe;
+        self.once = once;
         self.unsubscribe = unsubscribe;
         self.publish = publish;
 
@@ -103,6 +104,7 @@
 
         return {
             subscribe: self.subscribe,
+            once: self.once,
             publish: self.publish
         };
 
@@ -141,6 +143,22 @@
             self.subscribers.push(subscriber);
 
             return subscriber;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf translate.event
+         * @name once
+         *
+         * @param {function} callback Event callback
+         * @returns {Object} Subscribtion Token
+         *
+         * @description
+         * Put callback to subscribers list with automatical unsubscribe after one call (short-hand for subscribe(callback, true)).
+         * Return subscription token, so subscriber can unsubscribe.
+         */
+        function once(callback) {
+            return subscribe(callback, true);
         }
 
         /**
