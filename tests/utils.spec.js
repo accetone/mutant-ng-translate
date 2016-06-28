@@ -23,18 +23,36 @@ describe('The translate utils test suite', function () {
         });
     });
 
-    describe('>> Data transformation tests', function() {
-        it('should return undefined if called without params', function() {
-            var values = $utils.directDataTransformation();
+    describe('>> Data transformations tests', function() {
+        describe('>> Direct', function () {
+            it('should return undefined if called without params', function() {
+                var values = $utils.directDataTransformation();
 
-            expect(values).toEqual(undefined);
+                expect(values).toEqual(undefined);
+            });
+
+            it('should return not modified values', function () {
+                var source = { test: 'test' };
+                var values = $utils.directDataTransformation(source);
+
+                expect(values).toEqual(source);
+            });
         });
 
-        it('should return not modified values', function () {
-            var source = { test: 'test' };
-            var values = $utils.directDataTransformation(source);
+        describe('>> Complex', function () {
+            it('should return undefined if called without params', function() {
+                var values = $utils.complexDataTransformation();
 
-            expect(values).toEqual(source);
+                expect(values).toEqual(undefined);
+            });
+
+            it('should return flat object', function () {
+                var source = { test: 'test', outer: { test: 'test', inner: { test: 'test', test2: 'test2' } } };
+                var output = { test: 'test', 'outer.test': 'test', 'outer.inner.test': 'test', 'outer.inner.test2': 'test2'};
+                var values = $utils.complexDataTransformation(source);
+
+                expect(values).toEqual(output);
+            });
         });
     });
 
