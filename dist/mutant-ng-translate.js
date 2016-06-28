@@ -1760,15 +1760,83 @@
          * @methodOf translate.utils
          * @name directDataTransformation
          * 
-         * @param {Object} values Values
+         * @param {Object} data Data
          * @returns {Object} Transformed Values
          * 
          * @description 
          * Return passed values without changes. 
          * Used for default transformation of received translations data
          */
-        self.directDataTransformation = function (values) {
-            return values;
+        self.directDataTransformation = function (data) {
+            return data;
+        };
+
+        /**
+         * @ngdoc method
+         * @methodOf translate.utils
+         * @name complexDataTransformation
+         *
+         * @param {Object} data Data
+         * @returns {Object} Transformed Values
+         *
+         * @description
+         * Transfrom complex object to flat object.
+         * Translations will be available via '.' (see example)
+         *
+         * @example
+         * ```javascript
+         * $translate.config({
+         *      ...
+         *      dataTranformation: $translateUtils.complexDataTransformation
+         * });
+         * ```
+         *
+         * Input:
+         * ```json
+         * {
+         *   "title": "Translator",
+         *   "dashboard": {
+         *     "hello": "Hallo!",
+         *     "menu": {
+         *       "main": "Home"
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * Output:
+         * ```json
+         * {
+         *   "title": "Translator",
+         *   "dashboard.hello": "Hallo!",
+         *   "dasboard.menu.main": "Home"
+         * }
+         * ```
+         */
+        self.complexDataTransformation = function (data) {
+            if (data == undefined) return;
+
+            return flattenObject(data, '');
+
+            function flattenObject(obj, prefix) {
+                var flat = {};
+
+                for (var p in obj) {
+                    if (!obj.hasOwnProperty(p)) continue;
+
+
+
+                    if (typeof obj[p] === 'string') {
+                        flat[prefix + p] = obj[p]
+                    }
+                    else {
+
+                        angular.merge(flat, flattenObject(obj[p], prefix + p + '.'));
+                    }
+                }
+
+                return flat;
+            }
         };
 
         /**
