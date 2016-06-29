@@ -1,6 +1,6 @@
 ## ANGULAR TRANSLATE / mutant-ng-translate
 ![Travis CI build info](https://travis-ci.org/accetone/mutant-ng-translate.svg?branch=master)
-![npm](https://img.shields.io/badge/npm-v.1.1.0-blue.svg)
+[![npm](https://img.shields.io/badge/npm-v.1.1.0-blue.svg)](https://www.npmjs.com/package/mutant-ng-translate)
 ![bower](https://img.shields.io/badge/bower-v.1.1.0-blue.svg)
 ![license](https://img.shields.io/badge/license-MIT-orange.svg)  
 
