@@ -1,7 +1,7 @@
 ## ANGULAR TRANSLATE / mutant-ng-translate
 ![Travis CI build info](https://travis-ci.org/accetone/mutant-ng-translate.svg?branch=master)
-![npm](https://img.shields.io/badge/npm-v.1.0.3-blue.svg)
-![bower](https://img.shields.io/badge/bower-v.1.0.3-blue.svg)
+![npm](https://img.shields.io/badge/npm-v.1.1.0-blue.svg)
+![bower](https://img.shields.io/badge/bower-v.1.1.0-blue.svg)
 ![license](https://img.shields.io/badge/license-MIT-orange.svg)  
 
 Internationalization library for Angular applications.  
