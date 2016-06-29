@@ -4,7 +4,7 @@
 - introduce transformation for complex object with translation, you can find description
 and examples in [documentation](http://accetone.github.io/mutant-ng-translate-docs/)
 
-#### Enhancement
+#### Enhancements
 - short-hand method 'once' for events
 
 #### Bugs
