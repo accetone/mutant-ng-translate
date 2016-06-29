@@ -1,7 +1,7 @@
 ## 1.1.0 / Alaska
 
 #### Features
-- introduce transformation for complex object with trasnaltion, you can find description
+- introduce transformation for complex object with translation, you can find description
 and examples in [documentation](http://accetone.github.io/mutant-ng-translate-docs/)
 
 #### Enhancement
