@@ -20,7 +20,8 @@
      * - built-in caching of loaded translations and choosed language using browser localstorage, 
      * so next time user will see translations imidiatelly  
      * - configurable preload that load languages after primary language loaded,
-     * so you can make switch of language more gentle  
+     * so you can make switch of language more gentle
+     * - support of angular 1.4.x and higher  
      * 
      * ## Config options
      * 
