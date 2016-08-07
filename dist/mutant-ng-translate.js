@@ -20,7 +20,8 @@
      * - built-in caching of loaded translations and choosed language using browser localstorage, 
      * so next time user will see translations imidiatelly  
      * - configurable preload that load languages after primary language loaded,
-     * so you can make switch of language more gentle  
+     * so you can make switch of language more gentle
+     * - support of angular 1.4.x and higher  
      * 
      * ## Config options
      * 
@@ -51,10 +52,14 @@
      * ```
      * 
      * **Complex JSON file**
+     *
+     * If your locale file not plain key-value file, you can use built-in `complexDataTransformation` or pass your
+     * own `dataTransformation` function with options.
+     *
+     * In case you want to use built-in function, see how it works {@link translate.utils here} (see `complexDataTransformation`).
      * 
-     * If your locale file not plain key-value file, you can pass `dataTransformation` function with options.
-     * This function should transfrom you data to plain key-value object (hashmap).
-     * You can find signature {@link translate.utils here} (see `directDataTransformation`). 
+     * Your own should transfrom you data to plain key-value object (hashmap).
+     * You can find signature {@link translate.utils here} (see `directDataTransformation`).
      * 
      * ```javascript
      * $translate.config({
